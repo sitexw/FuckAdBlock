@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>FuckAdBlock 2.0 Exemple</title>
+	<style>
+	body {
+		font-family: Arial;
+	}
+	.pub_300x250 {
+		width: 300px;
+		height: 250px;
+		background-color: red;
+	}
+	</style>
+	<script src="./fuckadblock-2.0.min.js"></script>
+	<script>
+	fuckAdBlock.add(true, function() {
+		alert('AdBlock detected !');
+	}).add(false, function() {
+		alert('AdBlock is not detected =)');
+	});
+	function recheck() {
+		fuckAdBlock.add(true, function() {
+			alert('AdBlock always detected!');
+		}).add(false, function() {
+			alert('AdBlock is still not detected =)');
+		}).check();
+	}
+	</script>
+</head>
+<body>
+	<h1>Hello AdBlock =)</h1>
+	<hr>
+	<button onclick="recheck();">Recheck</button>
+	<button onclick="location.href='http://www.sitexw.fr/fuckadblock/';">Test online</button>
+	<hr>
+	<img class="pub_300x250" alt="Example pub" title="Example pub">
+</body>
+</html>

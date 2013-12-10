@@ -16,7 +16,13 @@ function FuckAdBlock() {
 	var loo_n = null;
 	var loop_func = function() {
 		var div_temp = window.getComputedStyle(div,null);
-		if(/about:abp/.test(div_temp.getPropertyValue('-moz-binding'))
+		if(div.offsetParent === null
+		|| div.offsetHeight == 0
+		|| div.offsetLeft == 0
+		|| div.offsetTop == 0
+		|| div.offsetWidth == 0
+		|| div.clientHeight == 0
+		|| div.clientWidth == 0
 		|| div_temp.getPropertyValue('display') == 'none'
 		|| div_temp.getPropertyValue('visibility') == 'hidden') {
 			exe(true);

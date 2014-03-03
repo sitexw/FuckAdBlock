@@ -1,3 +1,12 @@
+/* 
+FuckAdBlock 2.1 fork - some modifications to the original script:
+						- removed automatic check at beginning because was failing in my case (window onload)
+						- added function "removeAll()" to dettach all the callbacks (to be able to conveniently use anonymous functions passed by value)
+						- removed the "body" closure and using document.body everywhere instead (trying to initialize the closure var on window load was kinda not always working)
+https://github.com/tchakabam/FuckAdBlock
+
+*/
+
 /*
 FuckAdBlock 2.1
 http://github.com/sitexw/FuckAdBlock
@@ -10,7 +19,6 @@ function FuckAdBlock() {
 	var start = false;
 	var func_true = [];
 	var func_false = [];
-	var body = null;
 	var div = null;
 	var loop = null;
 	var loo_n = null;
@@ -38,7 +46,7 @@ function FuckAdBlock() {
 			var array = func_false;
 		}
 		clearInterval(loop);
-		body.removeChild(div);
+		document.body.removeChild(div);
 		start = false;
 		for(k in array) {
 			array[k]();
@@ -56,23 +64,32 @@ function FuckAdBlock() {
 		}
 		return this;
 	}
-	this.check = function() {
-		if(start == true) { return false; }
-		start = true;
-		div = document.createElement('div');
-		div.setAttribute('class', 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links');
-		div.setAttribute('style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: -1000px !important; top: -1000px !important;');
-		body.appendChild(div);
-		loo_n = 0;
-		loop = setInterval(loop_func, this.interval);
-		loop_func();
+	this.removeAll = function() {
+		func_true = [];
+		func_false = [];
 	}
+	this.check = function() {
+		console.debug("+FuckAdBlock.check()");
+		try {
+			if(start == true) { 
+				console.debug("FuckAdBlock.check() still running!");
+				return false; 
+			}
+			start = true;
+			div = document.createElement('div');
+			div.setAttribute('class', 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links');
+			div.setAttribute('style', 'width: 1px !important; height: 1px !important; position: absolute !important; left: -1000px !important; top: -1000px !important;');
+			document.body.appendChild(div);
+			loo_n = 0;
+			loop = setInterval(loop_func, this.interval);
+			loop_func();
+		} catch(e) {
+			console.error(e);
+		}
+		console.debug("-FuckAdBlock.check()");
+	}
+	
 	var that = this;
-	window.addEventListener('load', function() {
-		body = document.getElementsByTagName('body')[0];
-		setTimeout(function() {
-			fuckAdBlock.check();
-		}, 1);
-	}, false);
 }
 var fuckAdBlock = new FuckAdBlock();
+

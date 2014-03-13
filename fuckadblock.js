@@ -1,5 +1,5 @@
 /*
-FuckAdBlock 2.2
+FuckAdBlock 2.2.1
 http://github.com/sitexw/FuckAdBlock
 */
 
@@ -7,6 +7,7 @@ function FuckAdBlock() {
 	this.interval = 50;
 	this.max = 200;
 	this.end_reset = true;
+	this.check_onready = true;
 	var start = false;
 	var func_true = [];
 	var func_false = [];
@@ -78,5 +79,12 @@ function FuckAdBlock() {
 	}
 	
 	var that = this;
+	window.addEventListener('load', function() {
+		setTimeout(function() {
+			if(that.check_onready === true) {
+				fuckAdBlock.check();
+			}
+		}, 1);
+	}, false);
 }
 var fuckAdBlock = new FuckAdBlock();

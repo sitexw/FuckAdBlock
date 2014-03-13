@@ -2,7 +2,7 @@
     "name": "FuckAdBlock",
     "author": ["Valentin Allaire <valentin.allaire@sitexw.fr>", 
                 "Stephan Hesse <disparat@gmail.com>"],
-    "version": "2.2.0",
+    "version": "2.2.1",
     "main": "fuckadblock.js",
     "licenses": [],
     "ignore": [

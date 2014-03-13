@@ -69,10 +69,8 @@ function FuckAdBlock() {
 		func_false = [];
 	}
 	this.check = function() {
-		console.debug("+FuckAdBlock.check()");
 		try {
 			if(start == true) { 
-				console.debug("FuckAdBlock.check() still running!");
 				return false; 
 			}
 			start = true;
@@ -86,7 +84,6 @@ function FuckAdBlock() {
 		} catch(e) {
 			console.error(e);
 		}
-		console.debug("-FuckAdBlock.check()");
 	}
 	
 	var that = this;

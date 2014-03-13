@@ -1,14 +1,5 @@
-/* 
-FuckAdBlock 2.2         - some modifications to the original script:
-						- removed automatic check at beginning because was failing in my case (window onload)
-						- added function "removeAll()" to dettach all the callbacks (to be able to conveniently use anonymous functions passed by value)
-						- removed the "body" closure and using document.body everywhere instead (trying to initialize the closure var on window load was kinda not always working)
-https://github.com/tchakabam/FuckAdBlock
-
-*/
-
 /*
-FuckAdBlock 2.1
+FuckAdBlock 2.2
 http://github.com/sitexw/FuckAdBlock
 */
 
@@ -89,4 +80,3 @@ function FuckAdBlock() {
 	var that = this;
 }
 var fuckAdBlock = new FuckAdBlock();
-

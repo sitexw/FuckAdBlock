@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tchakabam/FuckAdBlock.git"
+    "url": "git://github.com/sitexw/FuckAdBlock.git"
   },
   "keywords": [
     "ad",
@@ -17,7 +17,7 @@
   ],
   "author": "Valentin Allaire <valentin.allaire@sitexw.fr>, Stephan Hesse <disparat@gmail.com>",
   "bugs": {
-    "url": "https://github.com/tchakabam/FuckAdBlock/issues"
+    "url": "https://github.com/sitexw/FuckAdBlock/issues"
   },
-  "homepage": "https://github.com/tchakabam/FuckAdBlock"
+  "homepage": "https://github.com/sitexw/FuckAdBlock"
 }

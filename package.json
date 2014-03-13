@@ -1,0 +1,23 @@
+{
+  "name": "FuckAdBlock",
+  "version": "2.2.0",
+  "description": "Detects ad blockers",
+  "main": "fuckadblock.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tchakabam/FuckAdBlock.git"
+  },
+  "keywords": [
+    "ad",
+    "block",
+    "detection"
+  ],
+  "author": "Valentin Allaire <valentin.allaire@sitexw.fr>, Stephan Hesse <disparat@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/tchakabam/FuckAdBlock/issues"
+  },
+  "homepage": "https://github.com/tchakabam/FuckAdBlock"
+}

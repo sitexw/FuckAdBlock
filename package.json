@@ -1,6 +1,6 @@
 {
   "name": "FuckAdBlock",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Detects ad blockers",
   "main": "fuckadblock.js",
   "scripts": {

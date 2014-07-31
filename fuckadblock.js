@@ -1,5 +1,5 @@
 /*
-FuckAdBlock 2.2.1
+FuckAdBlock 2.2.2
 http://github.com/sitexw/FuckAdBlock
 */
 

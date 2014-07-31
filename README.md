@@ -1,7 +1,7 @@
 FuckAdBlock
 ===========
 
-Allows you to detect those nasty ad blockers
+Allows you to detect those nasty ad blockers (version 2.2.2)
 
 ```
 fuckAdBlock.add(true, function() {  /* what to do in case of an ad blocker */  });

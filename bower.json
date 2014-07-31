@@ -1,11 +1,10 @@
 {
-    "name": "FuckAdBlock",
-    "author": ["Valentin Allaire <valentin.allaire@sitexw.fr>", 
-                "Stephan Hesse <disparat@gmail.com>"],
-    "version": "2.2.1",
-    "main": "fuckadblock.js",
-    "licenses": [],
-    "ignore": [
-        "package.json"
-    ]
+	"name": "FuckAdBlock",
+	"author": ["Valentin Allaire <valentin.allaire@sitexw.fr>"],
+	"version": "3.0.0",
+	"main": "fuckadblock.js",
+	"licenses": [],
+	"ignore": [
+		"package.json"
+	]
 }

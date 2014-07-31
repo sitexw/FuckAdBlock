@@ -1,41 +1,172 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>FuckAdBlock 2.2.1 Exemple</title>
+	<title>FuckAdBlock 3.0.0</title>
+	
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 	<style>
-	body {
-		font-family: Arial;
-	}
-	.pub_300x250 {
-		width: 300px;
-		height: 250px;
-		background-color: red;
-	}
+		header {
+			margin-bottom: 20px;
+		}
+		.outline {
+			width: 302px;
+			height: 252px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+			background-color: #f2dede;
+		}
+		.pub_300x250 {
+			width: 300px;
+			height: 250px;
+			background-color: #dff0d8;
+		}
+		h5.bg-success,
+		h5.bg-danger {
+			padding: 8px;
+			border: 1px solid #cccccc;
+			border-radius: 4px;
+		}
 	</style>
-	<script src="./fuckadblock.js"></script>
+	
+	<script src="./fuckadblock2.js"></script>
 	<script>
-	fuckAdBlock.add(true, function() {
-		alert('AdBlock detected !');
-	}).add(false, function() {
-		alert('AdBlock is not detected =)');
-	});
-	function recheck() {
-		fuckAdBlock.add(true, function() {
-			alert('AdBlock always detected!');
-		}).add(false, function() {
-			alert('AdBlock is still not detected =)');
-		}).check();
-	}
+		function adBlockDetected() {
+			document.getElementById('adb-actived').style.display = 'block';
+			document.getElementById('adb-not-actived').style.display = 'none';
+		}
+		function adBlockNotDetected() {
+			document.getElementById('adb-actived').style.display = 'none';
+			document.getElementById('adb-not-actived').style.display = 'block';
+		}
+		
+		if(fuckAdBlock === undefined) {
+			adBlockDetected();
+		} else {
+			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+		}
+		
+		function checkAgain() {
+			document.getElementById('adb-actived').style.display = 'none';
+			document.getElementById('adb-not-actived').style.display = 'none';
+			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+			setTimeout(function() {
+				fuckAdBlock.check();
+			}, 500);
+		}
 	</script>
 </head>
 <body>
-	<h1>Hello AdBlock =)</h1>
-	<hr>
-	<button onclick="recheck();">Recheck</button>
-	<button onclick="location.href='http://www.sitexw.fr/fuckadblock/';">Test online</button>
-	<button onclick="location.href='http://github.com/sitexw/FuckAdBlock';">GitHub</button>
-	<hr>
-	<img class="pub_300x250" alt="Example pub" title="Example pub">
+	<div class="container">
+		<header class="row">
+			<div class="col-sm-8">
+				<h1>FuckAdBlock <small>3.0.0</small></h1>
+			</div>
+			<div class="col-sm-4 text-right">
+				<h4>
+					<a href="http://sitexw.fr/fuckadblock/" target="_blank">Online exemple</a>
+					&nbsp; &nbsp;
+					<a href="https://github.com/sitexw/FuckAdBlock" target="_blank">GitHub</a>
+				</h4>
+			</div>
+		</header>
+		<div class="row">
+			<div class="col-sm-5">
+				<div class="outline">
+					<div class="pub_300x250"></div>
+				</div>
+			</div>
+			<div class="col-sm-7">
+				<h3 class="text-left">Publicity exemple<button class="btn btn-primary btn-xs pull-right" onclick="checkAgain();">Check again</button></h3>
+				<h5 class="bg-success" id="adb-not-actived" style="display: none;">AdBlock is not actived</h5>
+				<h5 class="bg-danger" id="adb-actived" style="display: none;">AdBlock is actived</h5>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<h3 class="text-left">Code exemple</h3>
+<pre>// Function called if AdBlock is not detected
+function adBlockNotDetected() {
+	alert('AdBlock is not actived');
+}
+// Function called if AdBlock is detected
+function adBlockDetected() {
+	alert('AdBlock is actived');
+}
+
+// Recommended audit because AdBlock lock the file 'fuckadblock.js' 
+// If the file is not called, the variable does not exist 'fuckAdBlock'
+// This means that AdBlock is present
+if(fuckAdBlock === undefined) {
+	adBlockDetected();
+} else {
+	fuckAdBlock.onDetected(adBlockDetected);
+	fuckAdBlock.onNotDetected(adBlockNotDetected);
+	// and|or
+	fuckAdBlock.on(true, adBlockDetected);
+	fuckAdBlock.on(false, adBlockNotDetected);
+	// and|or
+	fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
+}
+
+// Change the options
+fuckAdBlock.setOptions('checkOnLoad', false);
+// and|or
+fuckAdBlock.setOptions({
+	checkOnLoad: false,
+	resetOnEnd: false
+});</pre>
+				<h3 class="text-left">Default options</h3>
+<pre>// At launch, check if AdBlock is enabled
+// Uses the method fuckAdBlock.check()
+checkOnLoad: true
+
+// At the end of the check, is that it removes all events added ?
+resetOnEnd: true
+
+// The number of milliseconds between each check
+loopCheckTime: 50
+
+// The number of negative checks after which there is considered that AdBlock is not actived
+// Time (ms) = 50*(5-1) = 200ms (per default)
+loopMaxNumber: 5
+
+// CSS class used by the bait caught AdBlock
+baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
+
+// CSS style used to hide the bait of the users
+baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+</pre>
+				<h3 class="text-left">Method available</h3>
+<pre>// Allows to set options
+// #options: string|object
+// #value:   string
+fuckAdBlock.setOption(options, value);
+
+// Allows to check if AdBlock is enabled
+// The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
+// Exemple: loop=true  => time~=200ms (time varies depending on the configuration)
+//          loop=false => time~=1ms
+// #loop: boolean (default: true)
+fuckAdBlock.check(loop);
+
+// Allows to manually simulate the presence of AdBlock or not
+// #detected: boolean (AdBlock is detected ?)
+fuckAdBlock.emitEvent(detected);
+
+// Allows to clear all events added via methods 'on', 'onDetected' and 'onNotDetected'
+fuckAdBlock.clearEvent();
+
+// Allows to add an event if AdBlock is detected
+// #detected: boolean (true: detected, false: not detected)
+// #fn:       function
+fuckAdBlock.on(detected, fn);
+
+// Similar to fuckAdBlock.on(true|false, fn)
+fuckAdBlock.onDetected(fn);
+fuckAdBlock.onNotDetected(fn);
+</pre>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 {
   "name": "FuckAdBlock",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "Detects ad blockers",
   "main": "fuckadblock.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "block",
     "detection"
   ],
-  "author": "Valentin Allaire <valentin.allaire@sitexw.fr>, Stephan Hesse <disparat@gmail.com>",
+  "author": "Valentin Allaire <valentin.allaire@sitexw.fr>",
   "bugs": {
     "url": "https://github.com/sitexw/FuckAdBlock/issues"
   },

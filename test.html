@@ -27,33 +27,6 @@
 			border-radius: 4px;
 		}
 	</style>
-	
-	<script src="./fuckadblock2.js"></script>
-	<script>
-		function adBlockDetected() {
-			document.getElementById('adb-actived').style.display = 'block';
-			document.getElementById('adb-not-actived').style.display = 'none';
-		}
-		function adBlockNotDetected() {
-			document.getElementById('adb-actived').style.display = 'none';
-			document.getElementById('adb-not-actived').style.display = 'block';
-		}
-		
-		if(fuckAdBlock === undefined) {
-			adBlockDetected();
-		} else {
-			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
-		}
-		
-		function checkAgain() {
-			document.getElementById('adb-actived').style.display = 'none';
-			document.getElementById('adb-not-actived').style.display = 'none';
-			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
-			setTimeout(function() {
-				fuckAdBlock.check();
-			}, 500);
-		}
-	</script>
 </head>
 <body>
 	<div class="container">
@@ -96,7 +69,7 @@ function adBlockDetected() {
 // Recommended audit because AdBlock lock the file 'fuckadblock.js' 
 // If the file is not called, the variable does not exist 'fuckAdBlock'
 // This means that AdBlock is present
-if(fuckAdBlock === undefined) {
+if(typeof fuckAdBlock === 'undefined') {
 	adBlockDetected();
 } else {
 	fuckAdBlock.onDetected(adBlockDetected);
@@ -168,5 +141,32 @@ fuckAdBlock.onNotDetected(fn);
 			</div>
 		</div>
 	</div>
+	
+	<script src="./fuckadblock.js"></script>
+	<script>
+		function adBlockDetected() {
+			document.getElementById('adb-actived').style.display = 'block';
+			document.getElementById('adb-not-actived').style.display = 'none';
+		}
+		function adBlockNotDetected() {
+			document.getElementById('adb-actived').style.display = 'none';
+			document.getElementById('adb-not-actived').style.display = 'block';
+		}
+		
+		if(typeof fuckAdBlock === 'undefined') {
+			adBlockDetected();
+		} else {
+			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+		}
+		
+		function checkAgain() {
+			document.getElementById('adb-actived').style.display = 'none';
+			document.getElementById('adb-not-actived').style.display = 'none';
+			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+			setTimeout(function() {
+				fuckAdBlock.check();
+			}, 500);
+		}
+	</script>
 </body>
 </html>

@@ -20,7 +20,7 @@ function adBlockDetected() {
 // Recommended audit because AdBlock lock the file 'fuckadblock.js' 
 // If the file is not called, the variable does not exist 'fuckAdBlock'
 // This means that AdBlock is present
-if(fuckAdBlock === undefined) {
+if(typeof fuckAdBlock === 'undefined') {
 	adBlockDetected();
 } else {
 	fuckAdBlock.onDetected(adBlockDetected);

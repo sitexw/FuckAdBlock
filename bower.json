@@ -1,7 +1,7 @@
 {
 	"name": "FuckAdBlock",
 	"author": ["Valentin Allaire <valentin.allaire@sitexw.fr>"],
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"main": "fuckadblock.js",
 	"licenses": [],
 	"ignore": [

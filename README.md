@@ -1,9 +1,17 @@
-FuckAdBlock (v3.0.0)
+FuckAdBlock (v3.0.1)
 ===========
 
 Allows you to detect those nasty ad blockers.
 Online exemple: http://sitexw.fr/fuckadblock/
 
+
+Valid on :
+---------------------
+- Google Chrome
+- Mozilla Firefox
+- Internet Explorer
+- Safari
+- Opera
 
 Code exemple
 ---------------------

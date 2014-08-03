@@ -15,7 +15,7 @@ Valid on :
 
 Code exemple
 ---------------------
-```
+```javascript
 // Function called if AdBlock is not detected
 function adBlockNotDetected() {
 	alert('AdBlock is not actived');
@@ -51,7 +51,7 @@ fuckAdBlock.setOptions({
 
 Default options
 ---------------------
-```
+```javascript
 // At launch, check if AdBlock is enabled
 // Uses the method fuckAdBlock.check()
 checkOnLoad: true
@@ -75,7 +75,7 @@ baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !i
 
 Method available
 ---------------------
-```
+```javascript
 // Allows to set options
 // #options: string|object
 // #value:   string

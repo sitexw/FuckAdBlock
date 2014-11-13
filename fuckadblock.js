@@ -1,5 +1,5 @@
 /*
-FuckAdBlock 3.0.1
+FuckAdBlock 3.0.2
 http://github.com/sitexw/FuckAdBlock
 */
 
@@ -14,7 +14,7 @@ http://github.com/sitexw/FuckAdBlock
 		}
 		
 		var self = this;
-		window.addEventListener('load', function() {
+		var eventCallback = function() {
 			setTimeout(function() {
 				if(self._options.checkOnLoad === true) {
 					if(self._var.bait === null) {
@@ -25,7 +25,12 @@ http://github.com/sitexw/FuckAdBlock
 					}, 1);
 				}
 			}, 1);
-		}, false);
+		};
+		if(window.addEventListener) {
+			window.addEventListener('load', eventCallback, false);
+		} else {
+			window.attachEvent('onload', eventCallback);
+		}
 	};
 	FuckAdBlock.prototype._options = {
 		checkOnLoad:		true,
@@ -33,7 +38,7 @@ http://github.com/sitexw/FuckAdBlock
 		loopCheckTime:		50,
 		loopMaxNumber:		5,
 		baitClass:			'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
-		baitStyle:			'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;',
+		baitStyle:			'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
 	};
 	FuckAdBlock.prototype._var = {
 		version:			'3.0.1',

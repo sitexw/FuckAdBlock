@@ -1,4 +1,4 @@
-FuckAdBlock (v3.0.1)
+FuckAdBlock (v3.0.2)
 ===========
 
 Allows you to detect those nasty ad blockers.
@@ -9,7 +9,7 @@ Valid on :
 ---------------------
 - Google Chrome
 - Mozilla Firefox
-- Internet Explorer
+- Internet Explorer (8+)
 - Safari
 - Opera
 

@@ -3,6 +3,7 @@
   "version": "3.0.2",
   "description": "Detects ad blockers",
   "main": "fuckadblock.js",
+  "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -3,7 +3,7 @@
 	"author": ["Valentin Allaire <valentin.allaire@sitexw.fr>"],
 	"version": "3.0.2",
 	"main": "fuckadblock.js",
-	"licenses": [],
+	"license": "MIT",
 	"ignore": [
 		"package.json"
 	]

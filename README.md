@@ -2,7 +2,7 @@ FuckAdBlock (v3.0.2)
 ===========
 
 Allows you to detect those nasty ad blockers.
-Online exemple: http://sitexw.fr/fuckadblock/
+Online example: http://sitexw.fr/fuckadblock/
 
 
 Valid on :
@@ -13,16 +13,16 @@ Valid on :
 - Safari
 - Opera
 
-Code exemple
+Code example
 ---------------------
 ```javascript
 // Function called if AdBlock is not detected
 function adBlockNotDetected() {
-	alert('AdBlock is not actived');
+	alert('AdBlock is not enabled');
 }
 // Function called if AdBlock is detected
 function adBlockDetected() {
-	alert('AdBlock is actived');
+	alert('AdBlock is enabled');
 }
 
 // Recommended audit because AdBlock lock the file 'fuckadblock.js' 
@@ -62,7 +62,7 @@ resetOnEnd: true
 // The number of milliseconds between each check
 loopCheckTime: 50
 
-// The number of negative checks after which there is considered that AdBlock is not actived
+// The number of negative checks after which there is considered that AdBlock is not enabled
 // Time (ms) = 50*(5-1) = 200ms (per default)
 loopMaxNumber: 5
 
@@ -83,7 +83,7 @@ fuckAdBlock.setOption(options, value);
 
 // Allows to check if AdBlock is enabled
 // The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
-// Exemple: loop=true  => time~=200ms (time varies depending on the configuration)
+// Example: loop=true  => time~=200ms (time varies depending on the configuration)
 //          loop=false => time~=1ms
 // #loop: boolean (default: true)
 fuckAdBlock.check(loop);

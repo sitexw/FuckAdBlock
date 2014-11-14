@@ -36,7 +36,7 @@
 			</div>
 			<div class="col-sm-4 text-right">
 				<h4>
-					<a href="http://sitexw.fr/fuckadblock/" target="_blank">Online exemple</a>
+					<a href="http://sitexw.fr/fuckadblock/" target="_blank">Online example</a>
 					&nbsp; &nbsp;
 					<a href="https://github.com/sitexw/FuckAdBlock" target="_blank">GitHub</a>
 				</h4>
@@ -49,9 +49,9 @@
 				</div>
 			</div>
 			<div class="col-sm-7">
-				<h3 class="text-left">Publicity exemple<button class="btn btn-primary btn-xs pull-right" onclick="checkAgain();">Check again</button></h3>
-				<h5 class="bg-success" id="adb-not-actived" style="display: none;">AdBlock is not actived</h5>
-				<h5 class="bg-danger" id="adb-actived" style="display: none;">AdBlock is actived</h5>
+				<h3 class="text-left">Publicity example<button class="btn btn-primary btn-xs pull-right" onclick="checkAgain();">Check again</button></h3>
+				<h5 class="bg-success" id="adb-not-enabled" style="display: none;">AdBlock is not enabled</h5>
+				<h5 class="bg-danger" id="adb-enabled" style="display: none;">AdBlock is enabled</h5>
 			</div>
 		</div>
 		<div class="row">
@@ -64,14 +64,14 @@
 					<li>Safari</li>
 					<li>Opera</li>
 				</ul>
-				<h3 class="text-left">Code exemple</h3>
+				<h3 class="text-left">Code example</h3>
 <pre>// Function called if AdBlock is not detected
 function adBlockNotDetected() {
-	alert('AdBlock is not actived');
+	alert('AdBlock is not enabled');
 }
 // Function called if AdBlock is detected
 function adBlockDetected() {
-	alert('AdBlock is actived');
+	alert('AdBlock is enabled');
 }
 
 // Recommended audit because AdBlock lock the file 'fuckadblock.js' 
@@ -107,7 +107,7 @@ resetOnEnd: true
 // The number of milliseconds between each check
 loopCheckTime: 50
 
-// The number of negative checks after which there is considered that AdBlock is not actived
+// The number of negative checks after which there is considered that AdBlock is not enabled
 // Time (ms) = 50*(5-1) = 200ms (per default)
 loopMaxNumber: 5
 
@@ -125,7 +125,7 @@ fuckAdBlock.setOption(options, value);
 
 // Allows to check if AdBlock is enabled
 // The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
-// Exemple: loop=true  => time~=200ms (time varies depending on the configuration)
+// Example: loop=true  => time~=200ms (time varies depending on the configuration)
 //          loop=false => time~=1ms
 // #loop: boolean (default: true)
 fuckAdBlock.check(loop);
@@ -153,12 +153,12 @@ fuckAdBlock.onNotDetected(fn);
 	<script src="./fuckadblock.js"></script>
 	<script>
 		function adBlockDetected() {
-			document.getElementById('adb-actived').style.display = 'block';
-			document.getElementById('adb-not-actived').style.display = 'none';
+			document.getElementById('adb-enabled').style.display = 'block';
+			document.getElementById('adb-not-enabled').style.display = 'none';
 		}
 		function adBlockNotDetected() {
-			document.getElementById('adb-actived').style.display = 'none';
-			document.getElementById('adb-not-actived').style.display = 'block';
+			document.getElementById('adb-enabled').style.display = 'none';
+			document.getElementById('adb-not-enabled').style.display = 'block';
 		}
 		
 		if(typeof fuckAdBlock === 'undefined') {
@@ -168,8 +168,8 @@ fuckAdBlock.onNotDetected(fn);
 		}
 		
 		function checkAgain() {
-			document.getElementById('adb-actived').style.display = 'none';
-			document.getElementById('adb-not-actived').style.display = 'none';
+			document.getElementById('adb-enabled').style.display = 'none';
+			document.getElementById('adb-not-enabled').style.display = 'none';
 			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
 			setTimeout(function() {
 				fuckAdBlock.check();

@@ -1,17 +1,33 @@
-FuckAdBlock (v3.0.3)
+FuckAdBlock (v3.1.0)
 ===========
 
-Allows you to detect those nasty ad blockers.
+You can detect nasty ad blockers.
 Online example: http://sitexw.fr/fuckadblock/
 
 
-Valid on :
+Valid on
 ---------------------
 - Google Chrome
 - Mozilla Firefox
 - Internet Explorer (8+)
 - Safari
 - Opera
+
+Install via
+---------------------
+Manual:
+```
+Download "fuckadblock.js" and add it to your website.
+```
+Bower:
+```
+bower install fuck-adblock
+```
+Node.js/io.js:
+```
+npm install fuckadblock
+```
+
 
 Code example
 ---------------------
@@ -103,4 +119,23 @@ fuckAdBlock.on(detected, fn);
 // Similar to fuckAdBlock.on(true|false, fn)
 fuckAdBlock.onDetected(fn);
 fuckAdBlock.onNotDetected(fn);
+```
+
+Instance
+---------------------
+*(Available only from version 3.1 and more)*
+By default, FuckAdBlock is instantiated automatically.
+To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
+```html
+<script>var fuckAdBlock = false;</script>
+<script src="./fuckadblock.js"></script>
+```
+After that, you are free to create your own instances:
+```javascript
+fuckAdBlock = new FuckAdBlock;
+// and|or
+myFuckAdBlock = new FuckAdBlock({
+	checkOnLoad: true,
+	resetOnEnd: true
+});
 ```

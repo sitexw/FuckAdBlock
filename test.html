@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-	<title>FuckAdBlock 3.0.3</title>
+	<title>FuckAdBlock 3.1.0</title>
 	
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 	<style>
 		header {
 			margin-bottom: 20px;
@@ -32,13 +32,13 @@
 	<div class="container">
 		<header class="row">
 			<div class="col-sm-8">
-				<h1>FuckAdBlock <small>3.0.3</small></h1>
+				<h1>FuckAdBlock <small>3.1.0</small></h1>
 			</div>
 			<div class="col-sm-4 text-right">
 				<h4>
-					<a href="http://sitexw.fr/fuckadblock/" target="_blank">Online example</a>
+					<a href="http://sitexw.fr/fuckadblock/">Online example</a>
 					&nbsp; &nbsp;
-					<a href="https://github.com/sitexw/FuckAdBlock" target="_blank">GitHub</a>
+					<a href="https://github.com/sitexw/FuckAdBlock">GitHub</a>
 				</h4>
 			</div>
 		</header>
@@ -56,7 +56,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-12">
-				<h3 class="text-left">Valid on :</h3>
+				<h3 class="text-left">Valid on</h3>
 				<ul>
 					<li>Google Chrome</li>
 					<li>Mozilla Firefox</li>
@@ -64,6 +64,13 @@
 					<li>Safari</li>
 					<li>Opera</li>
 				</ul>
+				<h3 class="text-left">Install via</h3>
+				<p>Manual:</p>
+				<pre>Download "fuckadblock.js" and add it to your website.</pre>
+				<p>Bower:</p>
+				<pre>bower install fuck-adblock</pre>
+				<p>Node.js/io.js:</p>
+				<pre>npm install fuckadblock</pre>
 				<h3 class="text-left">Code example</h3>
 <pre>// Function called if AdBlock is not detected
 function adBlockNotDetected() {
@@ -144,8 +151,22 @@ fuckAdBlock.on(detected, fn);
 
 // Similar to fuckAdBlock.on(true|false, fn)
 fuckAdBlock.onDetected(fn);
-fuckAdBlock.onNotDetected(fn);
-</pre>
+fuckAdBlock.onNotDetected(fn);</pre>
+				<h3 class="text-left">Instance</h3>
+				<p>
+					<i>(Available only from version 3.1 and more)</i><br>
+					By default, FuckAdBlock is instantiated automatically.<br>
+					To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
+				</p>
+<pre>&lt;script&gt;var fuckAdBlock = false;&lt/script&gt;
+&ltscript src="./fuckadblock.js"&gt;&lt/script&gt;</pre>
+After that, you are free to create your own instances:
+<pre>fuckAdBlock = new FuckAdBlock;
+// and|or
+myFuckAdBlock = new FuckAdBlock({
+	checkOnLoad: true,
+	resetOnEnd: true
+});</pre>
 			</div>
 		</div>
 	</div>
@@ -170,10 +191,15 @@ fuckAdBlock.onNotDetected(fn);
 		function checkAgain() {
 			document.getElementById('adb-enabled').style.display = 'none';
 			document.getElementById('adb-not-enabled').style.display = 'none';
-			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+			// setTimeout 300ms for the recheck is visible when you click on the button
 			setTimeout(function() {
-				fuckAdBlock.check();
-			}, 500);
+				if(typeof fuckAdBlock === 'undefined') {
+					adBlockDetected();
+				} else {
+					fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
+					fuckAdBlock.check();
+				}
+			}, 300);
 		}
 	</script>
 </body>

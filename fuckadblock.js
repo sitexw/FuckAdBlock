@@ -1,5 +1,5 @@
 /*
-FuckAdBlock 3.0.2
+FuckAdBlock 3.0.3
 http://github.com/sitexw/FuckAdBlock
 */
 

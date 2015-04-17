@@ -41,7 +41,7 @@ http://github.com/sitexw/FuckAdBlock
 		baitStyle:			'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
 	};
 	FuckAdBlock.prototype._var = {
-		version:			'3.0.1',
+		version:			'3.0.3',
 		bait:				null,
 		checking:			false,
 		loop:				null,

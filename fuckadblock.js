@@ -25,22 +25,23 @@ http://github.com/sitexw/FuckAdBlock
 			this.setOption(options);
 		}
 		var self = this;
-		var eventCallback = function() {
-			setTimeout(function() {
-				if(self._options.checkOnLoad === true) {
-					if(self._var.bait === null) {
-						self._creatBait();
-					}
-					setTimeout(function() {
-						self.check();
-					}, 1);
-				}
-			}, 1);
-		};
-		if(window.addEventListener !== undefined) {
-			window.addEventListener('load', eventCallback, false);
-		} else {
-			window.attachEvent('onload', eventCallback);
+		if(self._options.checkOnLoad === true) {
+			var eventCallback = function() {
+				setTimeout(function() {
+						if(self._var.bait === null) {
+							self._createBait();
+						}
+						setTimeout(function() {
+							self.check();
+						}, 1);
+					
+				}, 1);
+			};
+			if(window.addEventListener !== undefined) {
+				window.addEventListener('load', eventCallback, false);
+			} else {
+				window.attachEvent('onload', eventCallback);
+			}
 		}
 	};
 	FuckAdBlock.prototype._options = null;
@@ -58,13 +59,13 @@ http://github.com/sitexw/FuckAdBlock
 		}
 		return this;
 	};
-	
-	FuckAdBlock.prototype._creatBait = function() {
+
+	FuckAdBlock.prototype._createBait = function() {
 		var bait = document.createElement('div');
-			bait.setAttribute('class', this._options.baitClass);
-			bait.setAttribute('style', this._options.baitStyle);
+		bait.setAttribute('class', this._options.baitClass);
+		bait.setAttribute('style', this._options.baitStyle);
 		this._var.bait = window.document.body.appendChild(bait);
-		
+
 		this._var.bait.offsetParent;
 		this._var.bait.offsetHeight;
 		this._var.bait.offsetLeft;
@@ -82,16 +83,16 @@ http://github.com/sitexw/FuckAdBlock
 		if(loop === undefined) {
 			loop = true;
 		}
-		
+
 		if(this._var.checking === true) {
 			return false;
 		}
 		this._var.checking = true;
-		
+
 		if(this._var.bait === null) {
-			this._creatBait();
+			this._createBait();
 		}
-		
+
 		var self = this;
 		this._var.loopNumber = 0;
 		if(loop === true) {
@@ -100,16 +101,16 @@ http://github.com/sitexw/FuckAdBlock
 			}, this._options.loopCheckTime);
 		}
 		this._checkBait(loop);
-		
+
 		return true;
 	};
 	FuckAdBlock.prototype._checkBait = function(loop) {
 		var detected = false;
-		
+
 		if(this._var.bait === null) {
-			this._creatBait();
+			this._createBait();
 		}
-		
+
 		if(window.document.body.getAttribute('abp') !== null
 		|| this._var.bait.offsetParent === null
 		|| this._var.bait.offsetHeight == 0
@@ -127,7 +128,7 @@ http://github.com/sitexw/FuckAdBlock
 				detected = true;
 			}
 		}
-		
+
 		if(loop === true) {
 			this._var.loopNumber++;
 			if(this._var.loopNumber >= this._options.loopMaxNumber) {
@@ -136,7 +137,7 @@ http://github.com/sitexw/FuckAdBlock
 				this._var.loopNumber = 0;
 			}
 		}
-		
+
 		if(detected === true) {
 			if(loop === true) {
 				this._var.checking = false;
@@ -154,10 +155,9 @@ http://github.com/sitexw/FuckAdBlock
 	
 	FuckAdBlock.prototype.emitEvent = function(detected) {
 		var fns = this._var.event[(detected===true?'detected':'notDetected')];
-		for(var i in fns) {
-			if(fns.hasOwnProperty(i)) {
-				fns[i]();
-			}
+		for (var i=0;i<fns.length;i++)
+		{
+			fns[i]();
 		}
 		if(this._options.resetOnEnd === true) {
 			this.clearEvent();

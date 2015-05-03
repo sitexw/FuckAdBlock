@@ -4,6 +4,8 @@ FuckAdBlock (v3.1.0)
 You can detect nasty ad blockers.
 Online example: http://sitexw.fr/fuckadblock/
 
+(There is also the project [BlockAdBlock](https://github.com/sitexw/BlockAdBlock) that a more convenient name)
+
 
 Valid on
 ---------------------

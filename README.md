@@ -1,4 +1,4 @@
-FuckAdBlock (v3.1.0)
+FuckAdBlock (v3.1.1)
 ===========
 
 You can detect nasty ad blockers.

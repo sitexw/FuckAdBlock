@@ -38,6 +38,7 @@
 					}, 1);
 				}
 			}, 1);
+      self._ready = true;
 		};
 		if(window.addEventListener !== undefined) {
 			window.addEventListener('load', eventCallback, false);
@@ -81,6 +82,10 @@
 	};
 	
 	FuckAdBlock.prototype.check = function(loop) {
+    if (!this._ready) {
+      return false;
+    }
+
 		if(loop === undefined) {
 			loop = true;
 		}

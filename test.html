@@ -1,13 +1,14 @@
 <!doctype html>
 <html>
 <head>
-	<title>FuckAdBlock 3.1.1</title>
+	<title>FuckAdBlock 3.2.0</title>
 	
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css" rel="stylesheet">
 	<style>
 		header {
 			margin-bottom: 20px;
@@ -30,17 +31,20 @@
 			border: 1px solid #cccccc;
 			border-radius: 4px;
 		}
+		pre {
+			background-color: #f0f0f0;
+		}
 	</style>
 </head>
 <body>
 	<div class="container">
 		<header class="row">
 			<div class="col-sm-6">
-				<h1>FuckAdBlock <small>3.1.1</small></h1>
+				<h1>FuckAdBlock <small>3.2.0</small></h1>
 			</div>
 			<div class="col-sm-6 text-right">
 				<h4>
-					<a href="https://github.com/sitexw/BlockAdBlock" style="color: #7fbfe8;">BlockAdBlock</a>
+					<a href="https://github.com/sitexw/BlockAdBlock" style="color: #acc6d7;">BlockAdBlock</a>
 					&nbsp; &nbsp;
 					<a href="http://sitexw.fr/fuckadblock/">Online example</a>
 					&nbsp; &nbsp;
@@ -56,8 +60,8 @@
 			</div>
 			<div class="col-sm-7">
 				<h3 class="text-left">Publicity example<button class="btn btn-primary btn-xs pull-right" onclick="checkAgain();">Check again</button></h3>
-				<h5 class="bg-success" id="adb-not-enabled" style="display: none;">AdBlock is not enabled</h5>
-				<h5 class="bg-danger" id="adb-enabled" style="display: none;">AdBlock is enabled</h5>
+				<h5 class="bg-success" id="fuck-adb-not-enabled" style="display: none;">AdBlock is not enabled</h5>
+				<h5 class="bg-danger" id="fuck-adb-enabled" style="display: none;">AdBlock is enabled</h5>
 			</div>
 		</div>
 		<div class="row">
@@ -78,7 +82,7 @@
 				<p>Node.js/io.js:</p>
 				<pre>npm install fuckadblock</pre>
 				<h3 class="text-left">Code example</h3>
-<pre>// Function called if AdBlock is not detected
+<pre><code class="javascript">// Function called if AdBlock is not detected
 function adBlockNotDetected() {
 	alert('AdBlock is not enabled');
 }
@@ -103,14 +107,15 @@ if(typeof fuckAdBlock === 'undefined') {
 }
 
 // Change the options
-fuckAdBlock.setOptions('checkOnLoad', false);
+fuckAdBlock.setOption('checkOnLoad', false);
 // and|or
-fuckAdBlock.setOptions({
+fuckAdBlock.setOption({
+	debug: true,
 	checkOnLoad: false,
 	resetOnEnd: false
-});</pre>
+});</code></pre>
 				<h3 class="text-left">Default options</h3>
-<pre>// At launch, check if AdBlock is enabled
+<pre><code class="javascript">// At launch, check if AdBlock is enabled
 // Uses the method fuckAdBlock.check()
 checkOnLoad: true
 
@@ -129,9 +134,12 @@ baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads 
 
 // CSS style used to hide the bait of the users
 baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
-</pre>
+
+// Displays the debug in the console (available only from version 3.2 and more)
+debug: false
+</code></pre>
 				<h3 class="text-left">Method available</h3>
-<pre>// Allows to set options
+<pre><code class="javascript">// Allows to set options
 // #options: string|object
 // #value:   string
 fuckAdBlock.setOption(options, value);
@@ -157,46 +165,48 @@ fuckAdBlock.on(detected, fn);
 
 // Similar to fuckAdBlock.on(true|false, fn)
 fuckAdBlock.onDetected(fn);
-fuckAdBlock.onNotDetected(fn);</pre>
+fuckAdBlock.onNotDetected(fn);</code></pre>
 				<h3 class="text-left">Instance</h3>
 				<p>
 					<i>(Available only from version 3.1 and more)</i><br>
 					By default, FuckAdBlock is instantiated automatically.<br>
 					To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
 				</p>
-<pre>&lt;script&gt;var fuckAdBlock = false;&lt/script&gt;
-&ltscript src="./fuckadblock.js"&gt;&lt/script&gt;</pre>
+<pre><code class="javascript">&lt;script&gt;var fuckAdBlock = false;&lt/script&gt;
+&ltscript src="./fuckadblock.js"&gt;&lt/script&gt;</code></pre>
 After that, you are free to create your own instances:
-<pre>fuckAdBlock = new FuckAdBlock;
+<pre><code class="javascript">fuckAdBlock = new FuckAdBlock;
 // and|or
 myFuckAdBlock = new FuckAdBlock({
 	checkOnLoad: true,
 	resetOnEnd: true
-});</pre>
+});</code></pre>
 			</div>
 		</div>
 	</div>
 	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="./fuckadblock.js"></script>
 	<script>
 		function adBlockDetected() {
-			document.getElementById('adb-enabled').style.display = 'block';
-			document.getElementById('adb-not-enabled').style.display = 'none';
+			$('#fuck-adb-enabled').show();
+			$('#fuck-adb-not-enabled').hide();
 		}
 		function adBlockNotDetected() {
-			document.getElementById('adb-enabled').style.display = 'none';
-			document.getElementById('adb-not-enabled').style.display = 'block';
+			$('#fuck-adb-enabled').hide();
+			$('#fuck-adb-not-enabled').show();
 		}
 		
 		if(typeof fuckAdBlock === 'undefined') {
 			adBlockDetected();
 		} else {
+			fuckAdBlock.setOption({ debug: true });
 			fuckAdBlock.onDetected(adBlockDetected).onNotDetected(adBlockNotDetected);
 		}
 		
 		function checkAgain() {
-			document.getElementById('adb-enabled').style.display = 'none';
-			document.getElementById('adb-not-enabled').style.display = 'none';
+			$('#fuck-adb-enabled').hide();
+			$('#fuck-adb-not-enabled').hide();
 			// setTimeout 300ms for the recheck is visible when you click on the button
 			setTimeout(function() {
 				if(typeof fuckAdBlock === 'undefined') {
@@ -207,6 +217,12 @@ myFuckAdBlock = new FuckAdBlock({
 				}
 			}, 300);
 		}
+	</script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+	<script>
+		$('pre code').each(function(i, block) {
+			hljs.highlightBlock(block);
+		});
 	</script>
 </body>
 </html>

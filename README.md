@@ -1,4 +1,4 @@
-FuckAdBlock (v3.1.1)
+FuckAdBlock (v3.2.0)
 ===========
 
 You can detect nasty ad blockers.
@@ -59,9 +59,10 @@ if(typeof fuckAdBlock === 'undefined') {
 }
 
 // Change the options
-fuckAdBlock.setOptions('checkOnLoad', false);
+fuckAdBlock.setOption('checkOnLoad', false);
 // and|or
-fuckAdBlock.setOptions({
+fuckAdBlock.setOption({
+	debug: true,
 	checkOnLoad: false,
 	resetOnEnd: false
 });
@@ -89,6 +90,9 @@ baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads 
 
 // CSS style used to hide the bait of the users
 baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+
+// Displays the debug in the console (available only from version 3.2 and more)
+debug: false
 ```
 
 Method available

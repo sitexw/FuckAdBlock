@@ -1,15 +1,18 @@
 <!doctype html>
 <html>
 <head>
-	<title>FuckAdBlock 3.2.0</title>
+	<title>FuckAdBlock 4.0.0-beta.1</title>
 	
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-	<link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/default.min.css" rel="stylesheet">
+	<link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+	<link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/default.min.css" rel="stylesheet">
 	<style>
+		.container {
+			margin-bottom: 100px;
+		}
 		header {
 			margin-bottom: 20px;
 		}
@@ -40,7 +43,7 @@
 	<div class="container">
 		<header class="row">
 			<div class="col-sm-6">
-				<h1>FuckAdBlock <small>3.2.0</small></h1>
+				<h1>FuckAdBlock <small>4.0.0-beta.1</small></h1>
 			</div>
 			<div class="col-sm-6 text-right">
 				<h4>
@@ -70,9 +73,11 @@
 				<ul>
 					<li>Google Chrome</li>
 					<li>Mozilla Firefox</li>
-					<li>Internet Explorer (8+)</li>
-					<li>Safari</li>
+					<li>Internet Explorer (9+)</li>
+					<li>Safari (+iOS)</li>
 					<li>Opera</li>
+					<li>Adblock Browser (iOS and Android)</li>
+					<li>...</li>
 				</ul>
 				<h3 class="text-left">Install via</h3>
 				<p>Manual:</p>
@@ -81,111 +86,133 @@
 				<pre>bower install fuck-adblock</pre>
 				<p>Node.js/io.js:</p>
 				<pre>npm install fuckadblock</pre>
-				<h3 class="text-left">Code example</h3>
-<pre><code class="javascript">// Function called if AdBlock is not detected
-function adBlockNotDetected() {
-	alert('AdBlock is not enabled');
-}
-// Function called if AdBlock is detected
-function adBlockDetected() {
-	alert('AdBlock is enabled');
-}
-
-// Recommended audit because AdBlock lock the file 'fuckadblock.js' 
-// If the file is not called, the variable does not exist 'fuckAdBlock'
-// This means that AdBlock is present
-if(typeof fuckAdBlock === 'undefined') {
-	adBlockDetected();
-} else {
-	fuckAdBlock.onDetected(adBlockDetected);
-	fuckAdBlock.onNotDetected(adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected);
-	fuckAdBlock.on(false, adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
-}
+				<h3 class="text-left">Code example (basic)</h3>
+<pre><code class="html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+	
+	&lt;script&gt;var fuckAdBlock = undefined;&lt;/script&gt;
+	&lt;script src=&quot;./fuckadblock.js&quot;&gt;&lt;/script&gt;
+	&lt;script&gt;
+		var adBlockDetected = function() {
+		    $('h1 span').text('yes');
+		}
+		var adBlockNotDetected = function() {
+		    $('h1 span').text('no');
+		}
+		
+		if(typeof fuckAdBlock === 'undefined') {
+			adBlockDetected();
+		} else {
+			fuckAdBlock.on(true, adBlockDetected).on(false, adBlockNotDetected);
+		}
+	&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;AdBlock detected: &lt;span&gt;loading...&lt;/span&gt;&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+				<h3 class="text-left">Code example (other)</h3>
+<pre><code class="javascript">fuckAdBlock.onDetected(adBlockDetected);
+fuckAdBlock.onNotDetected(adBlockNotDetected);
+// and|or
+fuckAdBlock.on(true, adBlockDetected);
+fuckAdBlock.on(false, adBlockNotDetected);
+// and|or
+fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
 
 // Change the options
-fuckAdBlock.setOption('checkOnLoad', false);
+fuckAdBlock.setOption('debug', true);
 // and|or
 fuckAdBlock.setOption({
 	debug: true,
 	checkOnLoad: false,
 	resetOnEnd: false
-});</code></pre>
+});
+</code></pre>
 				<h3 class="text-left">Default options</h3>
 <pre><code class="javascript">// At launch, check if AdBlock is enabled
 // Uses the method fuckAdBlock.check()
 checkOnLoad: true
 
-// At the end of the check, is that it removes all events added ?
+// At the end of the check, is that it removes all events added?
 resetOnEnd: true
-
-// The number of milliseconds between each check
-loopCheckTime: 50
-
-// The number of negative checks after which there is considered that AdBlock is not enabled
-// Time (ms) = 50*(5-1) = 200ms (per default)
-loopMaxNumber: 5
-
-// CSS class used by the bait caught AdBlock
-baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
-
-// CSS style used to hide the bait of the users
-baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
 
 // Displays the debug in the console (available only from version 3.2 and more)
 debug: false
+
+
+// Do detection by the DOM is enabled?
+domEnable: true
+
+// The number of milliseconds between each check
+domLoopTime: 50
+
+// The number of negative checks after which there is considered that AdBlock is not enabled
+// Time (ms) = 50*(5-1) = 200ms (per default)
+domLoopMax: 5
+
+// CSS class used by the DOM bait caught AdBlock
+domBaitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
+
+// CSS style used to hide the DOM bait of the users
+domBaitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+
+
+// Do detection by the HTTP is enabled?
+httpEnable: true
+
+// The number of milliseconds before you stop the HTTP request
+httpTimeout: 200
+
+// URL used to detect via HTTP
+httpBaitUrl: '/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x250&advid=1'
 </code></pre>
 				<h3 class="text-left">Method available</h3>
 <pre><code class="javascript">// Allows to set options
+// Allows to set options
 // #options: string|object
-// #value:   string
+// #value:   string (optional)
 fuckAdBlock.setOption(options, value);
 
 // Allows to check if AdBlock is enabled
-// The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
-// Example: loop=true  => time~=200ms (time varies depending on the configuration)
-//          loop=false => time~=1ms
-// #loop: boolean (default: true)
 fuckAdBlock.check(loop);
-
-// Allows to manually simulate the presence of AdBlock or not
-// #detected: boolean (AdBlock is detected ?)
-fuckAdBlock.emitEvent(detected);
-
-// Allows to clear all events added via methods 'on', 'onDetected' and 'onNotDetected'
-fuckAdBlock.clearEvent();
 
 // Allows to add an event if AdBlock is detected
 // #detected: boolean (true: detected, false: not detected)
-// #fn:       function
-fuckAdBlock.on(detected, fn);
+// #event:    string (optional)
+// #cb:       function
+fuckAdBlock.on(detected, cb);
 
-// Similar to fuckAdBlock.on(true|false, fn)
-fuckAdBlock.onDetected(fn);
-fuckAdBlock.onNotDetected(fn);</code></pre>
+// Alias of fuckAdBlock.on(true|false, cb)
+fuckAdBlock.onDetected(cb);
+fuckAdBlock.onNotDetected(cb);
+</code></pre>
 				<h3 class="text-left">Instance</h3>
 				<p>
-					<i>(Available only from version 3.1 and more)</i><br>
 					By default, FuckAdBlock is instantiated automatically.<br>
 					To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
 				</p>
 <pre><code class="html">&lt;script&gt;var fuckAdBlock = false;&lt/script&gt;
-&ltscript src="./fuckadblock.js"&gt;&lt/script&gt;</code></pre>
+&ltscript src="./fuckadblock.js"&gt;&lt/script&gt;
+</code></pre>
 After that, you are free to create your own instances:
 <pre><code class="javascript">fuckAdBlock = new FuckAdBlock;
 // and|or
 myFuckAdBlock = new FuckAdBlock({
 	checkOnLoad: true,
 	resetOnEnd: true
-});</code></pre>
+});
+</code></pre>
 			</div>
 		</div>
 	</div>
 	
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
+	<script>var fuckAdBlock = undefined;</script>
 	<script src="./fuckadblock.js"></script>
 	<script>
 		function adBlockDetected() {
@@ -218,7 +245,8 @@ myFuckAdBlock = new FuckAdBlock({
 			}, 300);
 		}
 	</script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
 	<script>
 		$('pre code').each(function(i, block) {
 			hljs.highlightBlock(block);

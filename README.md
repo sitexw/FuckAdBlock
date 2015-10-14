@@ -1,22 +1,28 @@
-FuckAdBlock (v3.2.0)
-===========
+# FuckAdBlock (4.0.0-beta.1)
 
-You can detect nasty ad blockers.
-Online example: http://sitexw.fr/fuckadblock/
+- **EN**: Detects ad blockers
+- **FR**: Permet de détecter les bloqueurs de publicité
+- **ES**: Detecta los bloqueadores de anuncios
+- **DE**: Erkennt Werbeblocker
+- **BR**: Detecta bloqueadores de anúncios
+- **JP**: 広告ブロッカーを検出
+- **CN**: 检测广告拦截
+- **KR**: 광고 차단제를 감지
+
+Online example: http://sitexw.fr/fuckadblock/beta/
 
 (There is also a project, [BlockAdBlock](https://github.com/sitexw/BlockAdBlock), with a more convenient name)
 
-
-Valid on
----------------------
+## Valid on
 - Google Chrome
 - Mozilla Firefox
-- Internet Explorer (8+)
-- Safari
+- Internet Explorer (9+)
+- Safari (+iOS)
 - Opera
+- Adblock Browser (iOS and Android)
+- ...
 
-Install via
----------------------
+## Install via
 Manual:
 ```
 Download "fuckadblock.js" and add it to your website.
@@ -30,36 +36,48 @@ Node.js/io.js:
 npm install fuckadblock
 ```
 
+## Code example (basic)
+```html
+<!doctype html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
+	<script>var fuckAdBlock = undefined;</script>
+	<script src="./fuckadblock.js"></script>
+	<script>
+		var adBlockDetected = function() {
+		    $('h1 span').text('yes');
+		}
+		var adBlockNotDetected = function() {
+		    $('h1 span').text('no');
+		}
+		
+		if(typeof fuckAdBlock === 'undefined') {
+			adBlockDetected();
+		} else {
+			fuckAdBlock.on(true, adBlockDetected).on(false, adBlockNotDetected);
+		}
+	</script>
+</head>
+<body>
+    <h1>AdBlock detected: <span>loading...</span></h1>
+</body>
+</html>
+```
 
-Code example
----------------------
+## Code example (other)
 ```javascript
-// Function called if AdBlock is not detected
-function adBlockNotDetected() {
-	alert('AdBlock is not enabled');
-}
-// Function called if AdBlock is detected
-function adBlockDetected() {
-	alert('AdBlock is enabled');
-}
-
-// Recommended audit because AdBlock lock the file 'fuckadblock.js' 
-// If the file is not called, the variable does not exist 'fuckAdBlock'
-// This means that AdBlock is present
-if(typeof fuckAdBlock === 'undefined') {
-	adBlockDetected();
-} else {
-	fuckAdBlock.onDetected(adBlockDetected);
-	fuckAdBlock.onNotDetected(adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected);
-	fuckAdBlock.on(false, adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
-}
+fuckAdBlock.onDetected(adBlockDetected);
+fuckAdBlock.onNotDetected(adBlockNotDetected);
+// and|or
+fuckAdBlock.on(true, adBlockDetected);
+fuckAdBlock.on(false, adBlockNotDetected);
+// and|or
+fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
 
 // Change the options
-fuckAdBlock.setOption('checkOnLoad', false);
+fuckAdBlock.setOption('debug', true);
 // and|or
 fuckAdBlock.setOption({
 	debug: true,
@@ -68,68 +86,68 @@ fuckAdBlock.setOption({
 });
 ```
 
-Default options
----------------------
+## Default options
 ```javascript
 // At launch, check if AdBlock is enabled
 // Uses the method fuckAdBlock.check()
 checkOnLoad: true
 
-// At the end of the check, is that it removes all events added ?
+// At the end of the check, is that it removes all events added?
 resetOnEnd: true
-
-// The number of milliseconds between each check
-loopCheckTime: 50
-
-// The number of negative checks after which there is considered that AdBlock is not enabled
-// Time (ms) = 50*(5-1) = 200ms (per default)
-loopMaxNumber: 5
-
-// CSS class used by the bait caught AdBlock
-baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
-
-// CSS style used to hide the bait of the users
-baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
 
 // Displays the debug in the console (available only from version 3.2 and more)
 debug: false
+
+
+// Do detection by the DOM is enabled?
+domEnable: true
+
+// The number of milliseconds between each check
+domLoopTime: 50
+
+// The number of negative checks after which there is considered that AdBlock is not enabled
+// Time (ms) = 50*(5-1) = 200ms (per default)
+domLoopMax: 5
+
+// CSS class used by the DOM bait caught AdBlock
+domBaitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
+
+// CSS style used to hide the DOM bait of the users
+domBaitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+
+
+// Do detection by the HTTP is enabled?
+httpEnable: true
+
+// The number of milliseconds before you stop the HTTP request
+httpTimeout: 200
+
+// URL used to detect via HTTP
+httpBaitUrl: '/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x250&advid=1'
 ```
 
-Method available
----------------------
+## Method available
 ```javascript
 // Allows to set options
 // #options: string|object
-// #value:   string
+// #value:   string (optional)
 fuckAdBlock.setOption(options, value);
 
 // Allows to check if AdBlock is enabled
-// The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
-// Example: loop=true  => time~=200ms (time varies depending on the configuration)
-//          loop=false => time~=1ms
-// #loop: boolean (default: true)
 fuckAdBlock.check(loop);
-
-// Allows to manually simulate the presence of AdBlock or not
-// #detected: boolean (AdBlock is detected ?)
-fuckAdBlock.emitEvent(detected);
-
-// Allows to clear all events added via methods 'on', 'onDetected' and 'onNotDetected'
-fuckAdBlock.clearEvent();
 
 // Allows to add an event if AdBlock is detected
 // #detected: boolean (true: detected, false: not detected)
-// #fn:       function
-fuckAdBlock.on(detected, fn);
+// #event:    string (optional)
+// #cb:       function
+fuckAdBlock.on(detected, cb);
 
-// Similar to fuckAdBlock.on(true|false, fn)
-fuckAdBlock.onDetected(fn);
-fuckAdBlock.onNotDetected(fn);
+// Alias of fuckAdBlock.on(true|false, cb)
+fuckAdBlock.onDetected(cb);
+fuckAdBlock.onNotDetected(cb);
 ```
 
-Instance
----------------------
-*(Available only from version 3.1 and more)*
+## Instance
 By default, FuckAdBlock is instantiated automatically.
 To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
 ```html

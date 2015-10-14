@@ -1,245 +1,364 @@
 /*
- * FuckAdBlock 3.2.0
+ * FuckAdBlock 4.0.0-beta.1
  * Copyright (c) 2015 Valentin Allaire <valentin.allaire@sitexw.fr>
  * Released under the MIT license
  * https://github.com/sitexw/FuckAdBlock
  */
 
 (function(window) {
-	var FuckAdBlock = function(options) {
-		this._options = {
-			checkOnLoad:		false,
-			resetOnEnd:			false,
-			loopCheckTime:		50,
-			loopMaxNumber:		5,
-			baitClass:			'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
-			baitStyle:			'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;',
-			debug:				false
+	var FuckAdBlock = function(option) {
+		this._option = {
+			checkOnLoad:	false,
+			resetOnEnd:		false,
+			debug:			false,
+			
+			domEnable:		true,
+			domLoopTime:	50,
+			domLoopMax:		5,
+			domBaitClass:	'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
+			domBaitStyle:	'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;',
+			
+			httpEnable:		true,
+			httpTimeout:	200,
+			httpBaitUrl:	'/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x250&advid=1',
 		};
 		this._var = {
-			version:			'3.2.0',
-			bait:				null,
-			checking:			false,
-			loop:				null,
-			loopNumber:			0,
-			event:				{ detected: [], notDetected: [] }
+			version:		'4.0.0-beta.1',
+			versionExtend:	[4, 0, 0, 'beta', 1],
+			
+			dom:			{
+								bait:		null,
+								checking:	false,
+								loop:		null,
+								loopNumber:	null,
+							},
+			http:			{
+								checking:	false,
+							},
+			
+			event:			{
+								all:	{ true: [], false: [], },
+								dom:	{ true: [], false: [], },
+								http:	{ true: [], false: [], },
+							}
 		};
-		if(options !== undefined) {
-			this.setOption(options);
+		if(option !== undefined) {
+			this.setOption(option);
 		}
+		
 		var self = this;
-		var eventCallback = function() {
+		window.addEventListener('load', function() {
 			setTimeout(function() {
-				if(self._options.checkOnLoad === true) {
-					if(self._options.debug === true) {
-						self._log('onload->eventCallback', 'A check loading is launched');
-					}
-					if(self._var.bait === null) {
-						self._creatBait();
+				if(self._option.checkOnLoad === true) {
+					if(self._option.debug === true) {
+						self._log('onLoad', 'A check loading is launched');
 					}
 					setTimeout(function() {
 						self.check();
 					}, 1);
 				}
 			}, 1);
-		};
-		if(window.addEventListener !== undefined) {
-			window.addEventListener('load', eventCallback, false);
-		} else {
-			window.attachEvent('onload', eventCallback);
-		}
+		}, false);
 	};
-	FuckAdBlock.prototype._options = null;
-	FuckAdBlock.prototype._var = null;
-	FuckAdBlock.prototype._bait = null;
-	
-	FuckAdBlock.prototype._log = function(method, message) {
-		console.log('[FuckAdBlock]['+method+'] '+message);
-	};
-	
-	FuckAdBlock.prototype.setOption = function(options, value) {
-		if(value !== undefined) {
-			var key = options;
-			options = {};
-			options[key] = value;
-		}
-		for(var option in options) {
-			this._options[option] = options[option];
-			if(this._options.debug === true) {
-				this._log('setOption', 'The option "'+option+'" he was assigned to "'+options[option]+'"');
+	FuckAdBlock.prototype = {
+		_option:	null,
+		_var:		null,
+		
+		_log: function(method, message) {
+			console.log('[FuckAdBlock]['+method+'] '+message);
+		},
+		
+		setOption: function(options, value) {
+			if(value !== undefined) {
+				var key = options;
+				options = {};
+				options[key] = value;
 			}
-		}
-		return this;
-	};
-	
-	FuckAdBlock.prototype._creatBait = function() {
-		var bait = document.createElement('div');
-			bait.setAttribute('class', this._options.baitClass);
-			bait.setAttribute('style', this._options.baitStyle);
-		this._var.bait = window.document.body.appendChild(bait);
-		
-		this._var.bait.offsetParent;
-		this._var.bait.offsetHeight;
-		this._var.bait.offsetLeft;
-		this._var.bait.offsetTop;
-		this._var.bait.offsetWidth;
-		this._var.bait.clientHeight;
-		this._var.bait.clientWidth;
-		
-		if(this._options.debug === true) {
-			this._log('_creatBait', 'Bait has been created');
-		}
-	};
-	FuckAdBlock.prototype._destroyBait = function() {
-		window.document.body.removeChild(this._var.bait);
-		this._var.bait = null;
-		
-		if(this._options.debug === true) {
-			this._log('_destroyBait', 'Bait has been removed');
-		}
-	};
-	
-	FuckAdBlock.prototype.check = function(loop) {
-		if(loop === undefined) {
-			loop = true;
-		}
-		
-		if(this._options.debug === true) {
-			this._log('check', 'An audit was requested '+(loop===true?'with a':'without')+' loop');
-		}
-		
-		if(this._var.checking === true) {
-			if(this._options.debug === true) {
-				this._log('check', 'A check was canceled because there is already an ongoing');
+			for(var option in options) {
+				this._option[option] = options[option];
+				if(this._option.debug === true) {
+					this._log('setOption', 'The option "'+option+'" he was assigned to "'+options[option]+'"');
+				}
 			}
-			return false;
-		}
-		this._var.checking = true;
+			return this;
+		},
 		
-		if(this._var.bait === null) {
-			this._creatBait();
-		}
-		
-		var self = this;
-		this._var.loopNumber = 0;
-		if(loop === true) {
-			this._var.loop = setInterval(function() {
-				self._checkBait(loop);
-			}, this._options.loopCheckTime);
-		}
-		setTimeout(function() {
-			self._checkBait(loop);
-		}, 1);
-		if(this._options.debug === true) {
-			this._log('check', 'A check is in progress ...');
-		}
-		
-		return true;
-	};
-	FuckAdBlock.prototype._checkBait = function(loop) {
-		var detected = false;
-		
-		if(this._var.bait === null) {
-			this._creatBait();
-		}
-		
-		if(window.document.body.getAttribute('abp') !== null
-		|| this._var.bait.offsetParent === null
-		|| this._var.bait.offsetHeight == 0
-		|| this._var.bait.offsetLeft == 0
-		|| this._var.bait.offsetTop == 0
-		|| this._var.bait.offsetWidth == 0
-		|| this._var.bait.clientHeight == 0
-		|| this._var.bait.clientWidth == 0) {
-			detected = true;
-		}
-		if(window.getComputedStyle !== undefined) {
-			var baitTemp = window.getComputedStyle(this._var.bait, null);
-			if(baitTemp.getPropertyValue('display') == 'none'
-			|| baitTemp.getPropertyValue('visibility') == 'hidden') {
+		_domBaitCreat: function() {
+			var bait = document.createElement('div');
+			bait.setAttribute('class', this._option.domBaitClass);
+			bait.setAttribute('style', this._option.domBaitStyle);
+			bait.offsetParent;
+			bait.offsetHeight;
+			bait.offsetLeft;
+			bait.offsetTop;
+			bait.offsetWidth;
+			bait.clientHeight;
+			bait.clientWidth;
+			bait = window.document.body.appendChild(bait);
+			
+			if(this._option.debug === true) {
+				this._log('_domBaitCreat', 'Bait has been created');
+			}
+			return bait;
+		},
+		_domBaitDestroy: function() {
+			window.document.body.removeChild(this._var.dom.bait);
+			this._var.dom.bait = null;
+			
+			if(this._option.debug === true) {
+				this._log('_domBaitDestroy', 'Bait has been removed');
+			}
+			return this;
+		},
+		_domBaitCheck: function(bait) {
+			var detected = false;
+			
+			if(window.document.body.getAttribute('abp') !== null
+			|| bait.offsetParent === null
+			|| bait.offsetHeight == 0
+			|| bait.offsetLeft == 0
+			|| bait.offsetTop == 0
+			|| bait.offsetWidth == 0
+			|| bait.clientHeight == 0
+			|| bait.clientWidth == 0) {
 				detected = true;
+			} else {
+				var baitComputedStyle = window.getComputedStyle(bait);
+				if(baitComputedStyle.getPropertyValue('display') == 'none'
+				|| baitComputedStyle.getPropertyValue('visibility') == 'hidden') {
+					detected = true;
+				}
 			}
-		}
-		
-		if(this._options.debug === true) {
-			this._log('_checkBait', 'A check ('+(this._var.loopNumber+1)+'/'+this._options.loopMaxNumber+' ~'+(1+this._var.loopNumber*this._options.loopCheckTime)+'ms) was conducted and detection is '+(detected===true?'positive':'negative'));
-		}
-		
-		if(loop === true) {
-			this._var.loopNumber++;
-			if(this._var.loopNumber >= this._options.loopMaxNumber) {
-				this._stopLoop();
+			
+			return detected;
+		},
+		domCheck: function(loopEnable, baitExternal, callbackEnd, callbackStop) {
+			if(loopEnable === undefined) {
+				loopEnable = true;
+			} else {
+				loopEnable = Boolean(loopEnable);
 			}
-		}
-		
-		if(detected === true) {
-			this._stopLoop();
-			this._destroyBait();
-			this.emitEvent(true);
-			if(loop === true) {
-				this._var.checking = false;
+			if(this._option.debug === true) {
+				this._log('domCheck', 'An audit was requested '+(loopEnable===true?'with a':'without')+' loop');
 			}
-		} else if(this._var.loop === null || loop === false) {
-			this._destroyBait();
-			this.emitEvent(false);
-			if(loop === true) {
-				this._var.checking = false;
+			if(baitExternal === undefined) {
+				bait = this._domBaitCreat();
+				baitExternal = false;
+			} else {
+				bait = baitExternal;
+				baitExternal = true;
 			}
-		}
-	};
-	FuckAdBlock.prototype._stopLoop = function(detected) {
-		clearInterval(this._var.loop);
-		this._var.loop = null;
-		this._var.loopNumber = 0;
-		
-		if(this._options.debug === true) {
-			this._log('_stopLoop', 'A loop has been stopped');
-		}
-	};
-	
-	FuckAdBlock.prototype.emitEvent = function(detected) {
-		if(this._options.debug === true) {
-			this._log('emitEvent', 'An event with a '+(detected===true?'positive':'negative')+' detection was called');
-		}
-		
-		var fns = this._var.event[(detected===true?'detected':'notDetected')];
-		for(var i in fns) {
-			if(this._options.debug === true) {
-				this._log('emitEvent', 'Call function '+(parseInt(i)+1)+'/'+fns.length);
+			if(callbackEnd === undefined) {
+				callbackEnd = function(){};
 			}
-			if(fns.hasOwnProperty(i)) {
-				fns[i]();
+			if(this._var.dom.checking === true) {
+				if(this._option.debug === true) {
+					this._log('domCheck', 'A check was canceled because there is already in progress');
+				}
+				return false;
 			}
-		}
-		if(this._options.resetOnEnd === true) {
-			this.clearEvent();
-		}
-		return this;
-	};
-	FuckAdBlock.prototype.clearEvent = function() {
-		this._var.event.detected = [];
-		this._var.event.notDetected = [];
+			this._var.dom.checking = true;
+			
+			var self = this;
+			var loop = null;
+			var loopMax = 1;
+			var loopNumber = 0;
+			var loopTime = this._option.domLoopTime;
+			if(callbackStop !== undefined) {
+				callbackStop(function() {
+					//clearInterval(loop);
+					//self._var.dom.checking = false;
+				});
+			}
+			var check = function() {
+				loopNumber++;
+				var detected = self._domBaitCheck(bait);
+				if(self._option.debug === true) {
+					self._log('domCheck', 'A check ('+(loopNumber)+'/'+loopMax+' ~'+(loopNumber===1?1:(loopNumber-1)*loopTime)+'ms) was conducted and detection is "'+(detected===true?'positive':'negative')+'"');
+				}
+				if(detected === true || loopNumber >= loopMax) {
+					clearInterval(loop);
+					callbackEnd(detected);
+					self._var.dom.checking = false;
+				}
+			};
+			if(loopEnable === true) {
+				loopMax = self._option.domLoopMax;
+				loop = setInterval(check, loopTime);
+			}
+			setTimeout(check, 1);
+			
+			return true;
+		},
 		
-		if(this._options.debug === true) {
-			this._log('clearEvent', 'The event list has been cleared');
-		}
-	};
-	
-	FuckAdBlock.prototype.on = function(detected, fn) {
-		this._var.event[(detected===true?'detected':'notDetected')].push(fn);
-		if(this._options.debug === true) {
-			this._log('on', 'A type of event "'+(detected===true?'detected':'notDetected')+'" was added');
-		}
+		httpCheck: function(url, callbackEnd) {
+			if(url === undefined) {
+				url = this._option.httpBaitUrl;
+			}
+			if(callbackEnd === undefined) {
+				callbackEnd = function(){};
+			}
+			if(this._var.http.checking === true) {
+				if(this._option.debug === true) {
+					this._log('httpCheck', 'A check was canceled because there is already in progress');
+				}
+				return false;
+			}
+			this._var.http.checking = true;
+			
+			if(this._option.debug === true) {
+				this._log('httpCheck', 'An audit was requested');
+			}
+			var self = this;
+			var end = function(detected) {
+				callbackEnd(detected);
+				self._var.http.checking = false;
+			};
+			var readyStates = [false, false, false, false];
+			var status = null;
+			var respond = function(responseForce) {
+				if(end !== null) {
+					if(responseForce !== undefined) {
+						end(responseForce);
+						end = null;
+					} else {
+						if(status === 0) {
+							end(true);
+							end = null;
+							return;
+						}
+						for(var i=0; i<4; i++) {
+							if(readyStates[i] === false) {
+								end(true);
+								end = null;
+								return;
+							}
+						}
+						end(false);
+					}
+				}
+			};
+			var xmlHttp = new XMLHttpRequest();
+			xmlHttp.onreadystatechange = function() {
+				readyStates[xmlHttp.readyState-1] = true;
+				try {
+					status = xmlHttp.status;
+				} catch(e) {}
+				if(xmlHttp.readyState === 4) {
+					respond();
+				}
+			};
+			try {
+				xmlHttp.open('GET', url+'&_='+Math.round(Math.random()*100000000), true);
+				xmlHttp.send();
+			} catch(e) {
+				if(e.result == '2153644038') {
+					respond(true);
+				}
+			}
+			setTimeout(function() {
+				respond(false);
+			}, this._option.httpTimeout);
+			
+			return true;
+		},
 		
-		return this;
+		check: function() {
+			var self = this;
+			
+			if(this._var.dom.checking === true || this._var.http.checking === true) {
+				if(this._option.debug === true) {
+					this._log('check', 'A check was canceled because there is already in progress');
+				}
+				return false;
+			}
+			
+			var all = false;
+			var types = {
+				dom: false,
+				http: false,
+			};
+			var domStopLoop = null;
+			var end = function(type, detected) {
+				if(types[type] === null) {
+					types[type] = detected;
+					self.eventDispatch(type, detected);
+					if((all === false && detected === true) || (types.dom !== null && types.http !== null)) {
+						self.eventDispatch('all', detected);
+						all = true;
+					} 
+				}
+			};
+			if(this._option.domEnable === true) {
+				types.dom = null;
+				this.domCheck(true, undefined, function(detected) {
+					end('dom', detected);
+				}, function(stopLoop) { domStopLoop = stopLoop; });
+			}
+			if(this._option.httpEnable === true) {
+				types.http = null;
+				this.httpCheck(undefined, function(detected) {
+					end('http', detected);
+				});
+			}
+			
+			return true;
+		},
+		
+		eventDispatch: function(type, detected) {
+			var events = this._var.event[type][detected];
+			if(this._option.debug === true) {
+				this._log('eventDispatch', 'An "'+type+'" event with a "'+(detected===true?'positive':'negative')+'" detection was called (0/'+events.length+')');
+			}
+			for(var i in events) {
+				if(this._option.debug === true) {
+					this._log('eventDispatch', 'Call function event ("'+type+'"->"'+(detected===true?'detected':'notDetected')+'") '+(parseInt(i)+1)+'/'+events.length);
+				}
+				events[i]();
+			}
+			if(this._option.resetOnEnd === true) {
+				this.eventClear(type);
+			}
+			return this;
+		},
+		eventClear: function(type) {
+			if(type === undefined) {
+				this._var.event = {
+					all:	{ true: [], false: [] },
+					dom:	{ true: [], false: [] },
+					http:	{ true: [], false: [] },
+				};
+			} else {
+				this._var.event[type] = { true: [], false: [] };
+			}
+			
+			if(this._option.debug === true) {
+				if(type === undefined) { type = 'full'; }
+				this._log('eventClear', 'The "'+type+'" event list has been cleared');
+			}
+			return this;
+		},
+		
+		on: function(detected, event, cb) {
+			if(cb === undefined) {
+				cb = event;
+				event = 'all';
+			}
+			
+			this._var.event[event][detected].push(cb);
+			if(this._option.debug === true) {
+				this._log('on', 'A type of event "'+event+'" in "'+(detected===true?'detected':'notDetected')+'" mode has been added');
+			}
+			
+			return this;
+		},
+		onDetected: function(cb) {
+			return this.on(true, 'all', cb);
+		},
+		onNotDetected: function(cb) {
+			return this.on(false, 'all', cb);
+		},
 	};
-	FuckAdBlock.prototype.onDetected = function(fn) {
-		return this.on(true, fn);
-	};
-	FuckAdBlock.prototype.onNotDetected = function(fn) {
-		return this.on(false, fn);
-	};
-	
 	window.FuckAdBlock = FuckAdBlock;
 	
 	if(window.fuckAdBlock === undefined) {

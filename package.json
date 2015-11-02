@@ -1,6 +1,6 @@
 {
 	"name": "fuckadblock",
-	"version": "4.0.0-beta.1",
+	"version": "4.0.0-beta.2",
 	"description": "Detects ad blockers (AdBlock, ...)",
 	"author": {
 		"name" : "Valentin Allaire",
@@ -18,6 +18,13 @@
 		"detecting"
 	],
 	"main": "fuckadblock.js",
+	"files": [
+		"fuckadblock.js",
+		"fuckadblock.min.js",
+		"LICENSE",
+		"package.json",
+		"README.md"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

@@ -1,3 +1,12 @@
+# Do not use in production!
+
+**This Beta is still experimental, and is likely to change significantly!**
+
+*To contribute to this Beta, go here:* https://github.com/sitexw/FuckAdBlock/issues/34
+
+---
+---
+
 # FuckAdBlock (4.0.0-beta.2)
 Online example: [fuckadblock.sitexw.fr](http://fuckadblock.sitexw.fr)
 

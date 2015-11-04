@@ -6,6 +6,8 @@ Online example: http://sitexw.fr/fuckadblock/
 
 (There is also a project, [BlockAdBlock](https://github.com/sitexw/BlockAdBlock), with a more convenient name)
 
+*Come and see the future of FuckAdBlock: [V4 Beta](https://github.com/sitexw/FuckAdBlock/tree/v4.x)*
+
 
 Valid on
 ---------------------

@@ -25,7 +25,7 @@ Download "fuckadblock.js" and add it to your website.
 ```
 Bower:
 ```
-bower install fuck-adblock
+bower install fuckadblock
 ```
 Node.js/io.js:
 ```

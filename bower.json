@@ -1,5 +1,5 @@
 {
-	"name": "fuck-adblock",
+	"name": "fuckadblock",
 	"description": "Detects ad blockers (AdBlock, ...)",
 	"authors": [{
 		"name" : "Valentin Allaire",
@@ -8,6 +8,7 @@
 	}],
 	"license": "MIT",
 	"keywords": [
+		"fuckadblock",
 		"adblock",
 		"advertising",
 		"ad",

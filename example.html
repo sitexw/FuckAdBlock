@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title>FuckAdBlock 4.0.0-beta.2</title>
+	<title>FuckAdBlock 4.0.0-beta.3</title>
 	
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,7 +24,9 @@
 		}
 		.content .example {
 			margin-top: 40px;
-			margin-bottom: 20px;
+		}
+		h2 {
+			margin-top: 2rem;
 		}
 		pre {
 			padding: 8px;
@@ -47,7 +49,7 @@
 	</script>
 	
 	<script>var fuckAdBlock = undefined;</script>
-	<script src="./fuckadblock.min.js"></script>
+	<script src="./fuckadblock.js"></script>
 	<script>
 		var adBlockDetected = function() {
 			$('#result').removeClass('alert-info alert-success').addClass('alert-danger').text('AdBlock detected =(');
@@ -58,7 +60,7 @@
 		if(typeof fuckAdBlock === 'undefined') {
 			$(document).ready(adBlockDetected);
 		} else {
-			fuckAdBlock.on(true, adBlockDetected).on(false, adBlockUndetected);
+			fuckAdBlock.debug.set(true).on(true, adBlockDetected).on(false, adBlockUndetected);
 		}
 		
 		$(document).ready(function() {
@@ -80,7 +82,7 @@
 		<div class="container">
 			<div class="row">
 				<nav class="navbar navbar-inverse">
-					<a href="./example.html" class="navbar-brand">FuckAdBlock <small>4.0.0-beta.2</small></a>
+					<a href="./example.html" class="navbar-brand">FuckAdBlock <small>4.0.0-beta.3</small></a>
 					<ul class="nav navbar-nav pull-right">
 						<li class="nav-item">
 							<a href="https://github.com/sitexw/BlockAdBlock" class="nav-link">BlockAdBlock</a>
@@ -110,7 +112,7 @@
 		<div>
 
 <!-- from readme.md - start -->
-<h2><a id="Valid_on_5"></a>Valid on</h2>
+<h2><a id="Valid_on_15"></a>Valid on</h2>
 <ul>
 <li><strong>Google Chrome</strong> (Windows, Mac, Linux, Android, iOS)</li>
 <li><strong>Mozilla Firefox</strong> (Windows, Mac, Linux, Android, iOS)</li>
@@ -119,17 +121,17 @@
 <li><strong>Adblock Browser</strong> (Android, iOS)</li>
 <li><em>The list is really very long…</em></li>
 </ul>
-<h2><a id="Install_via_13"></a>Install via</h2>
+<h2><a id="Install_via_23"></a>Install via</h2>
 <p>Manual:</p>
 <pre><code class="language-html">Download "fuckadblock.min.js" and add it to your site
 </code></pre>
 <p>Bower:</p>
-<pre><code class="language-html">bower install fuck-adblock
+<pre><code class="language-html">bower install fuckadblock
 </code></pre>
-<p>NodeJS:</p>
+<p>NPM:</p>
 <pre><code class="language-html">npm install fuckadblock
 </code></pre>
-<h2><a id="Code_example_basic_28"></a>Code example (basic)</h2>
+<h2><a id="Code_example_basic_38"></a>Code example (basic)</h2>
 <pre><code class="language-html"><span class="hljs-doctype">&lt;!doctype html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
@@ -138,15 +140,22 @@
     <span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript"><span class="hljs-keyword">var</span> fuckAdBlock = <span class="hljs-literal">undefined</span>;</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"./fuckadblock.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-comment">// We create the function that will be executed if AdBlock is detected</span>
         <span class="hljs-keyword">var</span> adBlockDetected = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
             $(<span class="hljs-string">'h1 span'</span>).text(<span class="hljs-string">'yes'</span>);
         }
+        <span class="hljs-comment">// We create the function that will be executed if AdBlock is NOT detected</span>
         <span class="hljs-keyword">var</span> adBlockUndetected = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
             $(<span class="hljs-string">'h1 span'</span>).text(<span class="hljs-string">'no'</span>);
         }
-        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> fuckAdBlock === <span class="hljs-string">'undefined'</span>) {
+        <span class="hljs-comment">// We observe if the variable "fuckAdBlock" exists</span>
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span>  FuckAdBlock === <span class="hljs-string">'undefined'</span>) {
+            <span class="hljs-comment">// If it does not exist, it means that AdBlock blocking the script FuckAdBlock</span>
+            <span class="hljs-comment">// Therefore the function "adBlockDetected" is executed</span>
+            <span class="hljs-comment">// PS: The function is executed on the "document ready" in order to select the HTML with jQuery</span>
             $(<span class="hljs-built_in">document</span>).ready(adBlockDetected);
         } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// Otherwise, our functions we add to FuckAdBlock for a classic detection</span>
             fuckAdBlock.on(<span class="hljs-literal">true</span>, adBlockDetected).on(<span class="hljs-literal">false</span>, adBlockUndetected);
         }
     </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
@@ -156,7 +165,7 @@
 <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
-<h2><a id="Code_example_instance_and_plugin_57"></a>Code example (instance and plugin)</h2>
+<h2><a id="Code_example_instance_and_plugin_option_74"></a>Code example (instance and plugin option)</h2>
 <pre><code class="language-html"><span class="hljs-doctype">&lt;!doctype html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
@@ -192,23 +201,69 @@
 <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
-<h2><a id="Code_example_other_95"></a>Code example (other)</h2>
+<h2><a id="Code_example_maximum_security_112"></a>Code example (maximum security)</h2>
+<pre><code class="language-html"><span class="hljs-doctype">&lt;!doctype html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    
+    <span class="hljs-comment">&lt;!--
+        The variables used by FuckAdBlock is initialized
+        to be sure that another script has not used
+    --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript"><span class="hljs-keyword">var</span> fuckAdBlock = <span class="hljs-literal">undefined</span>, FuckAdBlock = <span class="hljs-literal">undefined</span>;</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--
+        Added the attribute "integrity" to be sure that the original script
+        is not modified by an extension or other.
+    --&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"./fuckadblock.min.js"</span> <span class="hljs-attribute">integrity</span>=<span class="hljs-value">"sha256-YQPO7mqk9cszSMNteCQ6YaPdRYmlJuR7CG1JP/CUa3s="</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">var</span> adBlockDetected = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            $(<span class="hljs-string">'h1 span'</span>).text(<span class="hljs-string">'yes'</span>);
+        }
+        <span class="hljs-keyword">var</span> adBlockUndetected = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            $(<span class="hljs-string">'h1 span'</span>).text(<span class="hljs-string">'no'</span>);
+        }
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span>  FuckAdBlock === <span class="hljs-string">'undefined'</span>) {
+            $(<span class="hljs-built_in">document</span>).ready(adBlockDetected);
+        } <span class="hljs-keyword">else</span> {
+            fuckAdBlock.on(<span class="hljs-literal">true</span>, adBlockDetected).on(<span class="hljs-literal">false</span>, adBlockUndetected);
+        }
+        <span class="hljs-comment">// It removes the variable "fuckadblock" and "FuckAdBlock</span>
+        <span class="hljs-comment">// so that it not be exploited by another script later</span>
+        <span class="hljs-comment">// but beware, you can not use it too!</span>
+        fuckAdBlock = <span class="hljs-literal">undefined</span>;
+        
+        <span class="hljs-comment">// Do not use FuckAdBlock outside this area</span>
+        <span class="hljs-comment">// (between importing the script and the line above)</span>
+    </span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">body</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">"font-family: Sans-Serif;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>AdBlock detected: <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>loading...<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
+</code></pre>
+<p>List of SHA256:</p>
+<ul>
+<li><strong>fuckadblock.js:</strong> <code>sha256-flllputoHvX4pZ2s1ujIJj3Lu1EuRB5TL+6UKpDEx+o=</code></li>
+<li><strong>fuckadblock.min.js:</strong> <code>sha256-YQPO7mqk9cszSMNteCQ6YaPdRYmlJuR7CG1JP/CUa3s=</code></li>
+</ul>
+<p>More information about the attribute “integrity”: <a href="https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity">Subresource Integrity</a></p>
+<h2><a id="Code_example_other_161"></a>Code example (other)</h2>
 <pre><code class="language-javascript">fuckAdBlock.on(<span class="hljs-literal">true</span>, adBlockDetected);
 fuckAdBlock.on(<span class="hljs-literal">false</span>, adBlockUndetected);
 <span class="hljs-comment">// or</span>
-fuckAdBlock.on(<span class="hljs-literal">true</span>, adBlockDetected).onNotDetected(adBlockNotDetected);
+fuckAdBlock.onDetected(<span class="hljs-literal">true</span>, adBlockDetected).onNotDetected(adBlockNotDetected);
 
-fuckAdBlock.setOption(<span class="hljs-string">'timeout'</span>, <span class="hljs-number">100</span>);
-<span class="hljs-comment">// or</span>
-fuckAdBlock.setOption({
+fuckAdBlock.options.set({
     timeout: <span class="hljs-number">100</span>,
 });
 </code></pre>
-<h2><a id="Default_options_FuckAdBlock_109"></a>Default options (FuckAdBlock)</h2>
+<h2><a id="Default_options_FuckAdBlock_173"></a>Default options (FuckAdBlock)</h2>
 <pre><code class="language-javascript"><span class="hljs-comment">// The number of milliseconds at the end of which it is considered that AdBlock is not enabled</span>
 timeout: <span class="hljs-number">200</span>
 </code></pre>
-<h2><a id="Default_options_Plugins_115"></a>Default options (Plugins)</h2>
+<h2><a id="Default_options_Plugins_179"></a>Default options (Plugins)</h2>
 <pre><code class="language-javascript"><span class="hljs-comment">// Plugin "html"</span>
 
 <span class="hljs-comment">// The number of milliseconds between each check</span>
@@ -220,6 +275,9 @@ baitElement: <span class="hljs-literal">null</span>
 baitClass: <span class="hljs-string">'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'</span>
 <span class="hljs-comment">// CSS style used to not see the bait</span>
 baitClass: <span class="hljs-string">'width:1px!important;height:1px!important;position:absolute!important;left:-10000px!important;top:-1000px!important;'</span>
+<span class="hljs-comment">// Chose the area (HTML element) which will add the bait</span>
+<span class="hljs-comment">// If null, "window.document.body" used</span>
+baitParent: <span class="hljs-literal">null</span>
 
 <span class="hljs-comment">// Plugin "http"</span>
 
@@ -229,15 +287,14 @@ baitMode: <span class="hljs-string">'ajax'</span>
 <span class="hljs-comment">// {RANDOM} is replaced by a random number (useful against the cache)</span>
 baitUrl: <span class="hljs-string">'/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&amp;adsize=300x250&amp;advid={RANDOM}'</span>
 </code></pre>
-<h2><a id="Method_available_138"></a>Method available</h2>
+<h2><a id="Method_available_205"></a>Method available</h2>
 <pre><code class="language-javascript"><span class="hljs-comment">// Allows to set options</span>
-<span class="hljs-comment">// @options: string|object</span>
-<span class="hljs-comment">// @value:   string (optional)</span>
-fuckAdBlock.setOption(options, value);
+<span class="hljs-comment">// @options: object</span>
+fuckAdBlock.options.set(options);
 
 <span class="hljs-comment">// Allows to check if AdBlock is enabled</span>
 <span class="hljs-comment">// @plugins: array (optional, default: all plugins)</span>
-<span class="hljs-comment">// @options: object (optional)</span>
+<span class="hljs-comment">// @options: object (optional, options selected plugins)</span>
 fuckAdBlock.check(plugins, options);
 
 <span class="hljs-comment">// Allows to add an event if AdBlock is detected</span>
@@ -245,7 +302,7 @@ fuckAdBlock.check(plugins, options);
 <span class="hljs-comment">// @callback: function</span>
 fuckAdBlock.on(detected, callback);
 </code></pre>
-<h2><a id="Instance_156"></a>Instance</h2>
+<h2><a id="Instance_222"></a>Instance</h2>
 <p>By default, FuckAdBlock is instantiated automatically.
 To block this automatic instantiation, simply create a variable “fuckAdBlock” with a value (null, false, …) before importing the script.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">script</span>&gt;</span><span class="actionscript"><span class="hljs-keyword">var</span> fuckAdBlock = <span class="hljs-literal">false</span>;</span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
@@ -254,7 +311,7 @@ To block this automatic instantiation, simply create a variable “fuckAdBlock�
 <p>After that, you are free to create your own instances:</p>
 <pre><code class="language-javascript"><span class="hljs-keyword">var</span> myFuckAdBlock = <span class="hljs-keyword">new</span> FuckAdBlock;
 </code></pre>
-<h2><a id="Plugin_169"></a>Plugin</h2>
+<h2><a id="Plugin_234"></a>Plugin</h2>
 <p>You can create a plugin like this:</p>
 <p>This plugin detects randomly AdBlock. In this case, there is one chance in five that AdBlock is detected.</p>
 <pre><code class="language-html"><span class="hljs-doctype">&lt;!doctype html&gt;</span>
@@ -276,37 +333,39 @@ To block this automatic instantiation, simply create a variable “fuckAdBlock�
             $(<span class="hljs-built_in">document</span>).ready(adBlockDetected);
         } <span class="hljs-keyword">else</span> {
             <span class="hljs-keyword">var</span> MyPluginRandom = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-                <span class="hljs-keyword">this</span>.setOption({
+                FuckAdBlock.getPluginClass().apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+                <span class="hljs-keyword">this</span>.options.set({
                     chanceDetected: <span class="hljs-number">0.5</span>,
                 });
-                FuckAdBlock.prototype.Plugin.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+                
+                <span class="hljs-keyword">var</span> data = {};
+                
+                <span class="hljs-keyword">this</span>.start = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+                    data.myTimeout = setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Math</span>.random() &lt;= self.options.get(<span class="hljs-string">'chanceDetected'</span>)) {
+                            self.callDetected();
+                        } <span class="hljs-keyword">else</span> {
+                            self.callUndetected();
+                        }
+                    }, <span class="hljs-number">100</span>);
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+                };
+                <span class="hljs-keyword">this</span>.stop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+                    clearTimeout(data.myTimeout);
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+                };
             };
-            MyPluginRandom.prototype = <span class="hljs-built_in">Object</span>.create(FuckAdBlock.prototype.Plugin.prototype);
-            MyPluginRandom.prototype.constructor = MyPluginRandom;
-            MyPluginRandom.prototype.name = <span class="hljs-string">'random'</span>;
-            MyPluginRandom.prototype.start = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-                <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
-                <span class="hljs-keyword">this</span>._data.myTimeout = setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-                    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Math</span>.random() &lt;= self.getOption(<span class="hljs-string">'chanceDetected'</span>)) {
-                        self.callDetected();
-                    } <span class="hljs-keyword">else</span> {
-                        self.callUndetected();
-                    }
-                }, <span class="hljs-number">100</span>);
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-            };
-            MyPluginRandom.prototype.stop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-                clearTimeout(<span class="hljs-keyword">this</span>._data.myTimeout);
-                <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-            };
-            FuckAdBlock.prototype.registerPlugin(MyPluginRandom);
+            MyPluginRandom.pluginName = <span class="hljs-string">'random'</span>;
+            MyPluginRandom.versionMin = [<span class="hljs-number">4</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];
             
             <span class="hljs-keyword">var</span> myFuckAdBlock = <span class="hljs-keyword">new</span> FuckAdBlock;
+            myFuckAdBlock.registerPlugin(MyPluginRandom);
             myFuckAdBlock.on(<span class="hljs-literal">true</span>, adBlockDetected).on(<span class="hljs-literal">false</span>, adBlockUndetected);
             $(<span class="hljs-built_in">document</span>).ready(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
                 myFuckAdBlock.check([<span class="hljs-string">'random'</span>], {
                     random: {
-                        chanceDetected: <span class="hljs-number">0.2</span>,
+                        chanceDetected: <span class="hljs-number">0.20</span>,
                     },
                 });
             });
@@ -318,6 +377,9 @@ To block this automatic instantiation, simply create a variable “fuckAdBlock�
 <span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span>
 </code></pre>
+<h2><a id="Plugin_list_303"></a>Plugin list</h2>
+<p>Here is a list of plugins (official or not):</p>
+<p><em>No plugins for now</em></p>
 <!-- from readme.md - end -->
 
 		</div>

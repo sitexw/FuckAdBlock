@@ -105,7 +105,9 @@ Method available
 // #value:   string
 fuckAdBlock.setOption(options, value);
 
-// Allows to check if AdBlock is enabled
+// Manually check if AdBlock is enabled.
+// Returns `true` upon completion of check.
+// Returns `false` if check cannot be performed (eg due to another check in progress).
 // The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
 // Example: loop=true  => time~=200ms (time varies depending on the configuration)
 //          loop=false => time~=1ms

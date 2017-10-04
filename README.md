@@ -31,6 +31,10 @@ Node.js/io.js:
 ```
 npm install fuckadblock
 ```
+CDN:
+```
+<script src="https://cdn.jsdelivr.net/npm/fuckadblock@3/fuckadblock.min.js"></script>
+```
 
 
 Code example

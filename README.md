@@ -29,12 +29,13 @@ bower install fuckadblock
 ```
 CDN :
 ```
-https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.js
+https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js
 https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js
 ```
 Integrity:
 ```
-sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U=
+sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U= (fuckadblock.js)
+sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w= (fuckadblock.min.js)
 ```
 
 
@@ -69,9 +70,9 @@ if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
 		// Then a detection is triggered
 		adBlockDetected(); 
 	};
-	importFAB.integrity = 'sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U=';
+	importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
 	importFAB.crossOrigin = 'anonymous';
-	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.js';
+	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
 	document.head.appendChild(importFAB);
 }
 ```

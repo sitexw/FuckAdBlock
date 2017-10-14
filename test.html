@@ -92,10 +92,11 @@
 				<p>Bower:</p>
 				<pre>bower install fuckadblock</pre>
 				<p>CDN:</p>
-				<pre>https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.js
+				<pre>https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js
 https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js</pre>
 				<p>Integrity:</p>
-				<pre>sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U=</pre>
+				<pre>sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U= (fuckadblock.js)
+sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w= (fuckadblock.min.js)</pre>
 				<h3 class="text-left">Code example</h3>
 				<p>Ideally positioned at the end of <span class="pre-inline">&lt;body&gt;</span>.</p>
 <pre><code class="javascript">// Function called if AdBlock is not detected
@@ -125,9 +126,9 @@ if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
 		// Then a detection is triggered
 		adBlockDetected(); 
 	};
-	importFAB.integrity = 'sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U=';
+	importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
 	importFAB.crossOrigin = 'anonymous';
-	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.js';
+	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
 	document.head.appendChild(importFAB);
 }</code></pre>
 				<h3 class="text-left">Default options</h3>

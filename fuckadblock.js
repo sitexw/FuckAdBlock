@@ -223,7 +223,7 @@
 				end('#NoPlugin', false, true);
 				return this;
 			}
-			for(var i in pluginsList) {
+			for(var i = 0; i < pluginsLength; i++) {
 				var name = pluginsList[i];
 				this.debug.log('check', 'Load plugin "'+name+'" ('+(parseInt(i)+1)+'/'+pluginsLength+')');
 				var plugin = plugins[name] = {

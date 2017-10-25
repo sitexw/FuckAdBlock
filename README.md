@@ -19,22 +19,29 @@ Valid on
 
 Install via
 ---------------------
-Manual:
+NPM:
 ```
-Download "fuckadblock.js" and add it to your website.
+npm install fuckadblock
 ```
 Bower:
 ```
 bower install fuckadblock
 ```
-Node.js/io.js:
+CDN :
 ```
-npm install fuckadblock
+https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js
+https://cdn.jsdelivr.net/npm/fuckadblock@3.2.1/fuckadblock.min.js
+```
+Integrity:
+```
+sha256-4/8cdZfUJoNm8DLRzuKwvhusQbdUqVov+6bVj9ewL7U= (fuckadblock.js)
+sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w= (fuckadblock.min.js)
 ```
 
 
 Code example
 ---------------------
+Ideally positioned at the end of `<body>`.
 ```javascript
 // Function called if AdBlock is not detected
 function adBlockNotDetected() {
@@ -45,29 +52,29 @@ function adBlockDetected() {
 	alert('AdBlock is enabled');
 }
 
-// Recommended audit because AdBlock lock the file 'fuckadblock.js' 
-// If the file is not called, the variable does not exist 'fuckAdBlock'
-// This means that AdBlock is present
-if(typeof fuckAdBlock === 'undefined') {
+// We look at whether FuckAdBlock already exists.
+if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
+	// If this is the case, it means that something tries to usurp are identity
+	// So, considering that it is a detection
 	adBlockDetected();
 } else {
-	fuckAdBlock.onDetected(adBlockDetected);
-	fuckAdBlock.onNotDetected(adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected);
-	fuckAdBlock.on(false, adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
+	// Otherwise, you import the script FuckAdBlock
+	var importFAB = document.createElement('script');
+	importFAB.onload = function() {
+		// If all goes well, we configure FuckAdBlock
+		fuckAdBlock.onDetected(adBlockDetected)
+		fuckAdBlock.onNotDetected(adBlockNotDetected);
+	};
+	importFAB.onerror = function() {
+		// If the script does not load (blocked, integrity error, ...)
+		// Then a detection is triggered
+		adBlockDetected(); 
+	};
+	importFAB.integrity = 'sha256-xjwKUY/NgkPjZZBOtOxRYtK20GaqTwUCf7WYCJ1z69w=';
+	importFAB.crossOrigin = 'anonymous';
+	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
+	document.head.appendChild(importFAB);
 }
-
-// Change the options
-fuckAdBlock.setOption('checkOnLoad', false);
-// and|or
-fuckAdBlock.setOption({
-	debug: true,
-	checkOnLoad: false,
-	resetOnEnd: false
-});
 ```
 
 Default options

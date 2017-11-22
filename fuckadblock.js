@@ -327,7 +327,9 @@
 			if(baitParent === null) {
 				window.document.body.removeChild(data.bait);
 			} else {
-				baitParent.removeChild(data.bait);
+                if (window.document.body.querySelector('.text-ad-links')) {
+                    baitParent.removeChild(data.bait);
+                }
 			}
 			return this;
 		};
@@ -474,12 +476,4 @@
 	
 	
 	window[className] = Fab;
-	if(window[instanceName] === undefined) {
-		var instance = window[instanceName] = new Fab;
-		window.addEventListener('load', function() {
-			setTimeout(function() {
-				instance.check();
-			}, 1);
-		}, false);
-	}
 })(window, 'fuckAdBlock', 'FuckAdBlock');

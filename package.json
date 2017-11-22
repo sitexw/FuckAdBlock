@@ -1,6 +1,6 @@
 {
-	"name": "fuckadblock",
-	"version": "3.2.1",
+	"name": "seopult-adblock-checker",
+	"version": "4.0.1",
 	"description": "Detects ad blockers (AdBlock, ...)",
 	"author": {
 		"name" : "Valentin Allaire",
@@ -9,6 +9,7 @@
 	},
 	"license": "MIT",
 	"keywords": [
+		"fuckadblock",
 		"adblock",
 		"advertising",
 		"ad",
@@ -18,6 +19,13 @@
 		"detecting"
 	],
 	"main": "fuckadblock.js",
+	"files": [
+		"fuckadblock.js",
+		"fuckadblock.min.js",
+		"LICENSE",
+		"package.json",
+		"README.md"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

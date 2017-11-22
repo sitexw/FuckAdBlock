@@ -1,6 +1,6 @@
 {
 	"name": "fuckadblock",
-	"version": "3.2.1",
+	"version": "4.0.0-beta.3",
 	"description": "Detects ad blockers (AdBlock, ...)",
 	"authors": [{
 		"name" : "Valentin Allaire",
@@ -9,6 +9,7 @@
 	}],
 	"license": "MIT",
 	"keywords": [
+		"fuckadblock",
 		"adblock",
 		"advertising",
 		"ad",
@@ -19,9 +20,9 @@
 	],
 	"main": "fuckadblock.js",
 	"ignore": [
-		"package.json",
-		"README.md",
-		"test.html"
+		".gitattributes",
+		"example.html",
+		"package.json"
 	],
 	"homepage": "https://github.com/sitexw/FuckAdBlock",
 	"repository": {

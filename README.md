@@ -1,151 +1,315 @@
-FuckAdBlock (v3.2.1)
-===========
 
-You can detect nasty ad blockers.
-Online example: http://sitexw.fr/fuckadblock/
+# Use with caution!
 
-(There is also a project, [BlockAdBlock](https://github.com/sitexw/BlockAdBlock), with a more convenient name)
+**This Beta is still experimental and the bugs may be present.**
 
-*Come and see the future of FuckAdBlock: [V4 Beta](https://github.com/sitexw/FuckAdBlock/tree/v4.x)*
+*To contribute to this Beta, go here:* https://github.com/sitexw/FuckAdBlock/issues/34
 
+---
+---
+---
 
-Valid on
----------------------
-- Google Chrome
-- Mozilla Firefox
-- Internet Explorer (8+)
-- Safari
-- Opera
+# FuckAdBlock (4.0.0-beta.3)
+Online example: [fuckadblock.sitexw.fr](http://fuckadblock.sitexw.fr)
 
-Install via
----------------------
+(A version with a more correct name exists: [BlockAdBlock](https://github.com/sitexw/BlockAdBlock))
+
+## Valid on
+- **Google Chrome** (Windows, Mac, Linux, Android, iOS)
+- **Mozilla Firefox** (Windows, Mac, Linux, Android, iOS)
+- **Internet Explorer** (9+)
+- **Safari** (iOS, Mac, Windows)
+- **Adblock Browser** (Android, iOS)
+- *The list is really very long...*
+
+## Install via
 Manual:
-```
-Download "fuckadblock.js" and add it to your website.
+```html
+Download "fuckadblock.min.js" and add it to your site
 ```
 Bower:
-```
+```html
 bower install fuckadblock
 ```
-Node.js/io.js:
-```
+NPM:
+```html
 npm install fuckadblock
 ```
+<<<<<<< HEAD
+bower install fuckadblock
+=======
 
 
-Code example
----------------------
+## Code example (basic)
+```html
+<!doctype html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
+	<script>var fuckAdBlock = undefined;</script>
+	<script src="./fuckadblock.min.js"></script>
+	<script>
+	    // We create the function that will be executed if AdBlock is detected
+		var adBlockDetected = function() {
+		    $('h1 span').text('yes');
+		}
+	    // We create the function that will be executed if AdBlock is NOT detected
+		var adBlockUndetected = function() {
+		    $('h1 span').text('no');
+		}
+		// We observe if the variable "fuckAdBlock" exists
+		if(typeof  FuckAdBlock === 'undefined') {
+		    // If it does not exist, it means that AdBlock blocking the script FuckAdBlock
+		    // Therefore the function "adBlockDetected" is executed
+		    // PS: The function is executed on the "document ready" in order to select the HTML with jQuery
+			$(document).ready(adBlockDetected);
+		} else {
+		    // Otherwise, our functions we add to FuckAdBlock for a classic detection
+			fuckAdBlock.on(true, adBlockDetected).on(false, adBlockUndetected);
+		}
+	</script>
+</head>
+<body style="font-family: Sans-Serif;">
+    <h1>AdBlock detected: <span>loading...</span></h1>
+</body>
+</html>
+>>>>>>> v4.x
+```
+
+## Code example (instance and plugin option)
+```html
+<!doctype html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
+	<script>var fuckAdBlock = false, FuckAdBlock = undefined;</script>
+	<script src="./fuckadblock.min.js"></script>
+	<script>
+		var adBlockDetected = function() {
+			$('h1 span').text('yes');
+		}
+		var adBlockUndetected = function() {
+			$('h1 span').text('no');
+		}
+		if(typeof FuckAdBlock === 'undefined') {
+			$(document).ready(adBlockDetected);
+		} else {
+			var myFuckAdBlock = new FuckAdBlock;
+			myFuckAdBlock.on(true, adBlockDetected).on(false, adBlockUndetected);
+			$(document).ready(function() {
+				myFuckAdBlock.check(['http'], {
+					http: {
+						baitMode: 'import',
+						baitUrl: 'http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+					},
+				});
+			});
+		}
+	</script>
+</head>
+<body style="font-family: Sans-Serif;">
+	<h1>AdBlock detected: <span>loading...</span></h1>
+</body>
+</html>
+```
+
+## Code example (maximum security)
+```html
+<!doctype html>
+<html>
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    
+    <!--
+		The variables used by FuckAdBlock is initialized
+		to be sure that another script has not used
+	-->
+    <script>var fuckAdBlock = undefined, FuckAdBlock = undefined;</script>
+    <!--
+		Added the attribute "integrity" to be sure that the original script
+		is not modified by an extension or other.
+    -->
+    <script src="./fuckadblock.min.js" integrity="sha256-YQPO7mqk9cszSMNteCQ6YaPdRYmlJuR7CG1JP/CUa3s="></script>
+    <script>
+        var adBlockDetected = function() {
+            $('h1 span').text('yes');
+        }
+        var adBlockUndetected = function() {
+            $('h1 span').text('no');
+        }
+        if(typeof  FuckAdBlock === 'undefined') {
+            $(document).ready(adBlockDetected);
+        } else {
+            fuckAdBlock.on(true, adBlockDetected).on(false, adBlockUndetected);
+        }
+        // It removes the variable "fuckadblock" and "FuckAdBlock
+        // so that it not be exploited by another script later
+        // but beware, you can not use it too!
+        fuckAdBlock = undefined;
+        
+        // Do not use FuckAdBlock outside this area
+        // (between importing the script and the line above)
+    </script>
+</head>
+<body style="font-family: Sans-Serif;">
+    <h1>AdBlock detected: <span>loading...</span></h1>
+</body>
+</html>
+```
+List of SHA256:
+- **fuckadblock.js:** `sha256-flllputoHvX4pZ2s1ujIJj3Lu1EuRB5TL+6UKpDEx+o=`
+- **fuckadblock.min.js:** `sha256-YQPO7mqk9cszSMNteCQ6YaPdRYmlJuR7CG1JP/CUa3s=`
+
+More information about the attribute "integrity": [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
+
+## Code example (other)
 ```javascript
-// Function called if AdBlock is not detected
-function adBlockNotDetected() {
-	alert('AdBlock is not enabled');
-}
-// Function called if AdBlock is detected
-function adBlockDetected() {
-	alert('AdBlock is enabled');
-}
+fuckAdBlock.on(true, adBlockDetected);
+fuckAdBlock.on(false, adBlockUndetected);
+// or
+fuckAdBlock.onDetected(true, adBlockDetected).onNotDetected(adBlockNotDetected);
 
-// Recommended audit because AdBlock lock the file 'fuckadblock.js' 
-// If the file is not called, the variable does not exist 'fuckAdBlock'
-// This means that AdBlock is present
-if(typeof fuckAdBlock === 'undefined') {
-	adBlockDetected();
-} else {
-	fuckAdBlock.onDetected(adBlockDetected);
-	fuckAdBlock.onNotDetected(adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected);
-	fuckAdBlock.on(false, adBlockNotDetected);
-	// and|or
-	fuckAdBlock.on(true, adBlockDetected).onNotDetected(adBlockNotDetected);
-}
-
-// Change the options
-fuckAdBlock.setOption('checkOnLoad', false);
-// and|or
-fuckAdBlock.setOption({
-	debug: true,
-	checkOnLoad: false,
-	resetOnEnd: false
+fuckAdBlock.options.set({
+	timeout: 100,
 });
 ```
 
-Default options
----------------------
+## Default options (FuckAdBlock)
 ```javascript
-// At launch, check if AdBlock is enabled
-// Uses the method fuckAdBlock.check()
-checkOnLoad: true
+// The number of milliseconds at the end of which it is considered that AdBlock is not enabled
+timeout: 200
+```
 
-// At the end of the check, is that it removes all events added ?
-resetOnEnd: true
+## Default options (Plugins)
+```javascript
+// Plugin "html"
 
 // The number of milliseconds between each check
-loopCheckTime: 50
-
-// The number of negative checks after which there is considered that AdBlock is not enabled
-// Time (ms) = 50*(5-1) = 200ms (per default)
-loopMaxNumber: 5
-
-// CSS class used by the bait caught AdBlock
+loopTime: 50
+// Allow to use its own HTML element for checking
+// If null, then the plugin itself created the element
+baitElement: null
+// CSS class used to catch AdBlock
 baitClass: 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links'
+// CSS style used to not see the bait
+baitClass: 'width:1px!important;height:1px!important;position:absolute!important;left:-10000px!important;top:-1000px!important;'
+// Chose the area (HTML element) which will add the bait
+// If null, "window.document.body" used
+baitParent: null
 
-// CSS style used to hide the bait of the users
-baitStyle: 'width: 1px !important; height: 1px !important; position: absolute !important; left: -10000px !important; top: -1000px !important;'
+// Plugin "http"
 
-// Displays the debug in the console (available only from version 3.2 and more)
-debug: false
+// Use HTTP detection by AJAX ('ajax') or script tag ('import')
+baitMode: 'ajax'
+// The url called for detection
+// {RANDOM} is replaced by a random number (useful against the cache)
+baitUrl: '/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x250&advid={RANDOM}'
 ```
 
-Method available
----------------------
+## Method available
 ```javascript
 // Allows to set options
-// #options: string|object
-// #value:   string
-fuckAdBlock.setOption(options, value);
+// @options: object
+fuckAdBlock.options.set(options);
 
-// Manually check if AdBlock is enabled.
-// Returns `true` upon completion of check.
-// Returns `false` if check cannot be performed (eg due to another check in progress).
-// The parameter 'loop' allows checking without loop several times according to the value of 'loopMaxNumber'
-// Example: loop=true  => time~=200ms (time varies depending on the configuration)
-//          loop=false => time~=1ms
-// #loop: boolean (default: true)
-fuckAdBlock.check(loop);
 
-// Allows to manually simulate the presence of AdBlock or not
-// #detected: boolean (AdBlock is detected ?)
-fuckAdBlock.emitEvent(detected);
+// Allows to check if AdBlock is enabled
+// @plugins: array (optional, default: all plugins)
+// @options: object (optional, options selected plugins)
+fuckAdBlock.check(plugins, options);
 
-// Allows to clear all events added via methods 'on', 'onDetected' and 'onNotDetected'
-fuckAdBlock.clearEvent();
 
 // Allows to add an event if AdBlock is detected
-// #detected: boolean (true: detected, false: not detected)
-// #fn:       function
-fuckAdBlock.on(detected, fn);
-
-// Similar to fuckAdBlock.on(true|false, fn)
-fuckAdBlock.onDetected(fn);
-fuckAdBlock.onNotDetected(fn);
+// @detected: boolean (true: detected, false: not detected)
+// @callback: function
+fuckAdBlock.on(detected, callback);
 ```
 
-Instance
----------------------
-*(Available only from version 3.1 and more)*
+## Instance
 By default, FuckAdBlock is instantiated automatically.
 To block this automatic instantiation, simply create a variable "fuckAdBlock" with a value (null, false, ...) before importing the script.
 ```html
 <script>var fuckAdBlock = false;</script>
-<script src="./fuckadblock.js"></script>
+<script src="./fuckadblock.min.js"></script>
 ```
 After that, you are free to create your own instances:
 ```javascript
-fuckAdBlock = new FuckAdBlock;
-// and|or
-myFuckAdBlock = new FuckAdBlock({
-	checkOnLoad: true,
-	resetOnEnd: true
-});
+var myFuckAdBlock = new FuckAdBlock;
 ```
+
+## Plugin
+You can create a plugin like this:
+
+This plugin detects randomly AdBlock. In this case, there is one chance in five that AdBlock is detected.
+```html
+<!doctype html>
+<html>
+<head>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
+	<script>var fuckAdBlock = false, FuckAdBlock = undefined;</script>
+	<script src="./fuckadblock.min.js"></script>
+	<script>
+		var adBlockDetected = function() {
+			$('h1 span').text('yes');
+		}
+		var adBlockUndetected = function() {
+			$('h1 span').text('no');
+		}
+		
+		if(typeof FuckAdBlock === 'undefined') {
+			$(document).ready(adBlockDetected);
+		} else {
+			var MyPluginRandom = function() {
+				FuckAdBlock.getPluginClass().apply(this, arguments);
+				this.options.set({
+					chanceDetected:	0.5,
+				});
+				
+				var data = {};
+				
+				this.start = function() {
+					var self = this;
+					data.myTimeout = setTimeout(function() {
+						if(Math.random() <= self.options.get('chanceDetected')) {
+							self.callDetected();
+						} else {
+							self.callUndetected();
+						}
+					}, 100);
+					return this;
+				};
+				this.stop = function() {
+					clearTimeout(data.myTimeout);
+					return this;
+				};
+			};
+			MyPluginRandom.pluginName = 'random';
+			MyPluginRandom.versionMin = [4, 0, 0];
+			
+			var myFuckAdBlock = new FuckAdBlock;
+			myFuckAdBlock.registerPlugin(MyPluginRandom);
+			myFuckAdBlock.on(true, adBlockDetected).on(false, adBlockUndetected);
+			$(document).ready(function() {
+				myFuckAdBlock.check(['random'], {
+					random: {
+						chanceDetected: 0.20,
+					},
+				});
+			});
+		}
+	</script>
+</head>
+<body style="font-family: Sans-Serif;">
+	<h1>AdBlock detected: <span>loading...</span></h1>
+</body>
+</html>
+```
+
+## Plugin list
+
+Here is a list of plugins (official or not):
+
+*No plugins for now*

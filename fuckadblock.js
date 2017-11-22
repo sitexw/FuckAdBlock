@@ -327,7 +327,7 @@
 			if(baitParent === null) {
 				window.document.body.removeChild(data.bait);
 			} else {
-                if (window.document.body.querySelector('.text-ad-links')) {
+                if (window.document.body.contains(data.bait)) {
                     baitParent.removeChild(data.bait);
                 }
 			}

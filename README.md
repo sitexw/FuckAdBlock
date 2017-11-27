@@ -1,3 +1,4 @@
+
 # Use with caution!
 
 **This Beta is still experimental and the bugs may be present.**
@@ -34,6 +35,9 @@ NPM:
 ```html
 npm install fuckadblock
 ```
+<<<<<<< HEAD
+bower install fuckadblock
+=======
 
 
 ## Code example (basic)
@@ -70,6 +74,7 @@ npm install fuckadblock
     <h1>AdBlock detected: <span>loading...</span></h1>
 </body>
 </html>
+>>>>>>> v4.x
 ```
 
 ## Code example (instance and plugin option)
@@ -209,10 +214,12 @@ baitUrl: '/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x
 // @options: object
 fuckAdBlock.options.set(options);
 
+
 // Allows to check if AdBlock is enabled
 // @plugins: array (optional, default: all plugins)
 // @options: object (optional, options selected plugins)
 fuckAdBlock.check(plugins, options);
+
 
 // Allows to add an event if AdBlock is detected
 // @detected: boolean (true: detected, false: not detected)

@@ -132,6 +132,7 @@
 		});
 		
 		var self = this;
+
 		var version = [4, 0, 0, 'beta', 3];
 		var events = {};
 		var pluginsClass = {};
@@ -327,7 +328,9 @@
 			if(baitParent === null) {
 				window.document.body.removeChild(data.bait);
 			} else {
-				baitParent.removeChild(data.bait);
+                if (window.document.body.contains(data.bait)) {
+                    baitParent.removeChild(data.bait);
+                }
 			}
 			return this;
 		};
@@ -474,12 +477,4 @@
 	
 	
 	window[className] = Fab;
-	if(window[instanceName] === undefined) {
-		var instance = window[instanceName] = new Fab;
-		window.addEventListener('load', function() {
-			setTimeout(function() {
-				instance.check();
-			}, 1);
-		}, false);
-	}
 })(window, 'fuckAdBlock', 'FuckAdBlock');

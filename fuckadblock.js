@@ -1,5 +1,5 @@
 /*
- * FuckAdBlock 4.0.0-beta.3
+ * FuckAdBlock 4.0.0
  * Copyright (c) 2013-2015 Valentin Allaire <valentin.allaire@sitexw.fr>
  * Released under the MIT license
  * https://github.com/sitexw/FuckAdBlock
@@ -8,11 +8,11 @@
 (function(window, instanceName, className) {
 	var debug = false;
 	var debugName = 'FuckAdBlock';
-	
+
 	var FabUtils = function() {
 		var self = this;
 		var options = {};
-		
+
 		this.errors = {
 			throwError: function(name, method, type) {
 				throw 'Argument "'+name+'" of method "'+method+'" is not an "'+type+'"';
@@ -43,11 +43,11 @@
 				}
 			},
 		};
-		
+
 		this.options = {
 			set: function(optionsList) {
 				self.errors.isObject(optionsList, 'optionsList', 'options.set');
-				
+
 				for(var key in optionsList) {
 					options[key] = optionsList[key];
 					self.debug.log('options.set', 'Set "'+key+'" to "'+optionsList[key]+'"');
@@ -58,7 +58,7 @@
 				return options[key];
 			},
 		};
-		
+
 		this.debug = {
 			set: function(isEnable) {
 				debug = isEnable;
@@ -72,12 +72,12 @@
 				if(debug === true) {
 					self.errors.isString(method, 'method', 'debug.log');
 					self.errors.isString(message, 'message', 'debug.log');
-					
+
 					console.log('['+debugName+']['+method+'] '+message);
 				}
 			},
 		};
-		
+
 		this.versionToInt = function(version) {
 			var versionInt = '';
 			for(var i=0; i<3; i++) {
@@ -90,14 +90,14 @@
 			return parseInt(versionInt);
 		};
 	};
-	
+
 	var FabPlugin = function() {
 		FabUtils.apply(this);
-		
+
 		var data = {};
 		var callbackDetected = null;
 		var callbackUndetected = null;
-		
+
 		this.setDetected = function(callback) {
 			callbackDetected = callback;
 			return this;
@@ -110,7 +110,7 @@
 			callbackDetected = null;
 			return true;
 		};
-		
+
 		this.setUndetected = function(callback) {
 			callbackUndetected = callback;
 			return this;
@@ -124,19 +124,19 @@
 			return true;
 		};
 	};
-	
+
 	var Fab = function() {
 		FabUtils.apply(this);
 		this.options.set({
 			timeout: 200,
 		});
-		
+
 		var self = this;
 
-		var version = [4, 0, 0, 'beta', 3];
+		var version = [4, 0, 0];
 		var events = {};
 		var pluginsClass = {};
-		
+
 		this.getVersion = function(toInt) {
 			if(toInt !== true) {
 				return version;
@@ -144,11 +144,11 @@
 				this.versionToInt(version);
 			}
 		};
-		
+
 		this.addEvent = function(name, callback) {
 			this.errors.isString(name, 'name', 'addEvent');
 			this.errors.isFunction(callback, 'callback', 'addEvent');
-			
+
 			if(events[name] === undefined) {
 				events[name] = [];
 			}
@@ -159,17 +159,17 @@
 		this.on = function(detected, callback) {
 			this.errors.isBoolean(detected, 'detected', 'on');
 			this.errors.isFunction(callback, 'callback', 'on');
-			
+
 			return this.addEvent(detected===true?'detected':'undetected', callback);
 		};
 		this.onDetected = function(callback) {
 			this.errors.isFunction(callback, 'callback', 'onDetected');
-			
+
 			return this.addEvent('detected', callback);
 		};
 		this.onNotDetected = function(callback) {
 			this.errors.isFunction(callback, 'callback', 'onNotDetected');
-			
+
 			return this.addEvent('undetected', callback);
 		};
 		var dispatchEvent = function(name) {
@@ -188,7 +188,7 @@
 			}
 			return this;
 		};
-		
+
 		this.check = function(pluginsList, optionsList) {
 			 if(pluginsList instanceof Array === false && optionsList === undefined) {
 				optionsList = pluginsList;
@@ -203,11 +203,11 @@
 			this.errors.isArray(pluginsList, 'pluginsList', 'check');
 			this.errors.isObject(optionsList, 'optionsList', 'check');
 			this.debug.log('check', 'Starting check');
-			
+
 			var plugins = {};
 			var pluginsLength = pluginsList.length;
 			var pluginsEndLength = 0;
-			
+
 			var end = function(pluginName, detected, force) {
 				pluginsEndLength++;
 				self.debug.log('check', (detected===true?'Positive':'Negative')+'" check of plugin "'+pluginName+'"');
@@ -253,7 +253,7 @@
 			}, this.options.get('timeout'));
 			return this;
 		};
-		
+
 		this.registerPlugin = function(pluginClass) {
 			this.errors.isFunction(pluginClass, 'pluginClass', 'registerPlugin');
 			this.errors.isString(pluginClass.pluginName, 'pluginClass.pluginName', 'registerPlugin');
@@ -261,7 +261,7 @@
 			if(pluginClass.versionMin.length !== 3) {
 				this.errors.throwError('pluginClass.versionMin', 'registerPlugin', 'array with 3 values');
 			}
-			
+
 			if(pluginsClass[pluginClass.pluginName] === undefined) {
 				if(this.versionToInt(version) >= this.versionToInt(pluginClass.versionMin)) {
 					pluginsClass[pluginClass.pluginName] = pluginClass;
@@ -275,27 +275,27 @@
 			}
 			return false;
 		};
-		
+
 		this.registerPlugin(FabPluginHtml);
 		this.registerPlugin(FabPluginHttp);
 	};
 	Fab.getPluginClass = function() {
 		return FabPlugin;
 	};
-	
-	
+
+
 	var FabPluginHtml = function() {
 		Fab.getPluginClass().apply(this, arguments);
 		this.options.set({
 			loopTime:		50,
 			baitElement:	null,
 			baitClass:		'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
-			baitStyle:		'width:1px!important;height:1px!important;position:absolute!important;left:-10000px!important;top:-1000px!important;',
+			baitStyle:		'width:1px!important;height:1px!important;position:absolute!important;left:-10000px!important;top:-1000px!important;display:block!important;',
 			baitParent:		null,
 		});
-		
+
 		var data = {};
-		
+
 		this.start = function() {
 			var self = this;
 			if(this.options.get('baitElement') === null) {
@@ -326,15 +326,16 @@
 			clearInterval(data.loopInterval);
 			var baitParent = this.options.get('baitParent');
 			if(baitParent === null) {
-				window.document.body.removeChild(data.bait);
-			} else {
                 if (window.document.body.contains(data.bait)) {
-                    baitParent.removeChild(data.bait);
+                    window.document.body.removeChild(data.bait);
                 }
+			} else {
+               	baitParent.removeChild(data.bait);
+
 			}
 			return this;
 		};
-		
+
 		this.createBait = function(options) {
 			var bait = window.document.createElement('div');
 			bait.setAttribute('class', options.class);
@@ -372,17 +373,16 @@
 	FabPluginHtml.pluginName = 'html';
 	FabPluginHtml.version = [1, 0, 0];
 	FabPluginHtml.versionMin = [4, 0, 0];
-	
-	
+
 	var FabPluginHttp = function() {
 		Fab.getPluginClass().apply(this, arguments);
 		this.options.set({
 			baitMode:	'ajax',
 			baitUrl:	'/ad/banner/_adsense_/_adserver/_adview_.ad.json?adzone=top&adsize=300x250&advid={RANDOM}',
 		});
-		
+
 		var data = {};
-		
+
 		this.start = function() {
 			var self = this;
 			data.end = false;
@@ -404,7 +404,7 @@
 			data.end = true;
 			return this;
 		};
-		
+
 		this._urlCheck = function(url, mode, cbDetected, cbUndetected) {
 			var endSend = false;
 			var end = function(detected) {
@@ -474,7 +474,7 @@
 	FabPluginHttp.pluginName = 'http';
 	FabPluginHtml.version = [1, 0, 0];
 	FabPluginHttp.versionMin = [4, 0, 0];
-	
-	
+
+
 	window[className] = Fab;
 })(window, 'fuckAdBlock', 'FuckAdBlock');

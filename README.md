@@ -35,9 +35,6 @@ NPM:
 ```html
 npm install fuckadblock
 ```
-<<<<<<< HEAD
-bower install fuckadblock
-=======
 
 
 ## Code example (basic)
@@ -74,7 +71,6 @@ bower install fuckadblock
     <h1>AdBlock detected: <span>loading...</span></h1>
 </body>
 </html>
->>>>>>> v4.x
 ```
 
 ## Code example (instance and plugin option)

@@ -238,13 +238,21 @@
 	FuckAdBlock.prototype.onNotDetected = function(fn) {
 		return this.on(false, fn);
 	};
-	
-	window.FuckAdBlock = FuckAdBlock;
-	
-	if(window.fuckAdBlock === undefined) {
-		window.fuckAdBlock = new FuckAdBlock({
-			checkOnLoad: true,
-			resetOnEnd: true
-		});
-	}
+
+    if(typeof define === "function" && define.amd) {
+        define('FuckAdBlock', function(){
+            return FuckAdBlock;
+        });
+    } else if(typeof module === "object" && module.exports) {
+        module.exports = FuckAdBlock;
+    } else {
+        window.FuckAdBlock = FuckAdBlock;
+
+        if (window.fuckAdBlock === undefined) {
+            window.fuckAdBlock = new FuckAdBlock({
+                checkOnLoad: true,
+                resetOnEnd: true
+            });
+        }
+    }
 })(window);

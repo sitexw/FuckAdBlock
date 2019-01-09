@@ -52,11 +52,11 @@
 	FuckAdBlock.prototype._options = null;
 	FuckAdBlock.prototype._var = null;
 	FuckAdBlock.prototype._bait = null;
-	
+
 	FuckAdBlock.prototype._log = function(method, message) {
 		console.log('[FuckAdBlock]['+method+'] '+message);
 	};
-	
+
 	FuckAdBlock.prototype.setOption = function(options, value) {
 		if(value !== undefined) {
 			var key = options;
@@ -71,13 +71,13 @@
 		}
 		return this;
 	};
-	
+
 	FuckAdBlock.prototype._creatBait = function() {
 		var bait = document.createElement('div');
 			bait.setAttribute('class', this._options.baitClass);
 			bait.setAttribute('style', this._options.baitStyle);
 		this._var.bait = window.document.body.appendChild(bait);
-		
+
 		this._var.bait.offsetParent;
 		this._var.bait.offsetHeight;
 		this._var.bait.offsetLeft;
@@ -85,7 +85,7 @@
 		this._var.bait.offsetWidth;
 		this._var.bait.clientHeight;
 		this._var.bait.clientWidth;
-		
+
 		if(this._options.debug === true) {
 			this._log('_creatBait', 'Bait has been created');
 		}
@@ -93,21 +93,21 @@
 	FuckAdBlock.prototype._destroyBait = function() {
 		window.document.body.removeChild(this._var.bait);
 		this._var.bait = null;
-		
+
 		if(this._options.debug === true) {
 			this._log('_destroyBait', 'Bait has been removed');
 		}
 	};
-	
+
 	FuckAdBlock.prototype.check = function(loop) {
 		if(loop === undefined) {
 			loop = true;
 		}
-		
+
 		if(this._options.debug === true) {
 			this._log('check', 'An audit was requested '+(loop===true?'with a':'without')+' loop');
 		}
-		
+
 		if(this._var.checking === true) {
 			if(this._options.debug === true) {
 				this._log('check', 'A check was canceled because there is already an ongoing');
@@ -115,11 +115,11 @@
 			return false;
 		}
 		this._var.checking = true;
-		
+
 		if(this._var.bait === null) {
 			this._creatBait();
 		}
-		
+
 		var self = this;
 		this._var.loopNumber = 0;
 		if(loop === true) {
@@ -133,16 +133,16 @@
 		if(this._options.debug === true) {
 			this._log('check', 'A check is in progress ...');
 		}
-		
+
 		return true;
 	};
 	FuckAdBlock.prototype._checkBait = function(loop) {
 		var detected = false;
-		
+
 		if(this._var.bait === null) {
 			this._creatBait();
 		}
-		
+
 		if(window.document.body.getAttribute('abp') !== null
 		|| this._var.bait.offsetParent === null
 		|| this._var.bait.offsetHeight == 0
@@ -159,18 +159,18 @@
 				detected = true;
 			}
 		}
-		
+
 		if(this._options.debug === true) {
 			this._log('_checkBait', 'A check ('+(this._var.loopNumber+1)+'/'+this._options.loopMaxNumber+' ~'+(1+this._var.loopNumber*this._options.loopCheckTime)+'ms) was conducted and detection is '+(detected===true?'positive':'negative'));
 		}
-		
+
 		if(loop === true) {
 			this._var.loopNumber++;
 			if(this._var.loopNumber >= this._options.loopMaxNumber) {
 				this._stopLoop();
 			}
 		}
-		
+
 		if(detected === true) {
 			this._stopLoop();
 			this._destroyBait();
@@ -190,17 +190,17 @@
 		clearInterval(this._var.loop);
 		this._var.loop = null;
 		this._var.loopNumber = 0;
-		
+
 		if(this._options.debug === true) {
 			this._log('_stopLoop', 'A loop has been stopped');
 		}
 	};
-	
+
 	FuckAdBlock.prototype.emitEvent = function(detected) {
 		if(this._options.debug === true) {
 			this._log('emitEvent', 'An event with a '+(detected===true?'positive':'negative')+' detection was called');
 		}
-		
+
 		var fns = this._var.event[(detected===true?'detected':'notDetected')];
 		for(var i in fns) {
 			if(this._options.debug === true) {
@@ -218,18 +218,18 @@
 	FuckAdBlock.prototype.clearEvent = function() {
 		this._var.event.detected = [];
 		this._var.event.notDetected = [];
-		
+
 		if(this._options.debug === true) {
 			this._log('clearEvent', 'The event list has been cleared');
 		}
 	};
-	
+
 	FuckAdBlock.prototype.on = function(detected, fn) {
 		this._var.event[(detected===true?'detected':'notDetected')].push(fn);
 		if(this._options.debug === true) {
 			this._log('on', 'A type of event "'+(detected===true?'detected':'notDetected')+'" was added');
 		}
-		
+
 		return this;
 	};
 	FuckAdBlock.prototype.onDetected = function(fn) {
@@ -239,20 +239,20 @@
 		return this.on(false, fn);
 	};
 
-    if(typeof define === "function" && define.amd) {
-        define('FuckAdBlock', function(){
-            return FuckAdBlock;
-        });
-    } else if(typeof module === "object" && module.exports) {
-        module.exports = FuckAdBlock;
-    } else {
-        window.FuckAdBlock = FuckAdBlock;
+	if(typeof define === "function" && define.amd) {
+		define('FuckAdBlock', function () {
+			return FuckAdBlock;
+		});
+	} else if(typeof module === "object" && module.exports) {
+		module.exports = FuckAdBlock;
+	} else {
+		window.FuckAdBlock = FuckAdBlock;
 
-        if (window.fuckAdBlock === undefined) {
-            window.fuckAdBlock = new FuckAdBlock({
-                checkOnLoad: true,
-                resetOnEnd: true
-            });
-        }
-    }
+		if(window.fuckAdBlock === undefined) {
+			window.fuckAdBlock = new FuckAdBlock({
+				checkOnLoad: true,
+				resetOnEnd: true
+			});
+		}
+	}
 })(window);

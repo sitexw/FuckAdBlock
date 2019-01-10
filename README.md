@@ -77,16 +77,16 @@ if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
 }
 
 // AMD
-require(['BlockAdBlock'], function(BlockAdBlock) {
-	let blockAdBlock = new BlockAdBlock({
+require(['FuckAdBlock'], function(FuckAdBlock) {
+	let fuckAdBlock = new FuckAdBlock({
 		checkOnLoad: true,
 		resetOnEnd: true
 	});
 })
 
 // CommonJS
-let BlockAdBlock = require('blockadblock');
-let blockAdBlock = new BlockAdBlock({
+let FuckAdBlock = require('fuckadblock');
+let fuckAdBlock = new FuckAdBlock({
 	checkOnLoad: true,
 	resetOnEnd: true
 });

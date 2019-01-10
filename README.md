@@ -75,6 +75,21 @@ if(typeof fuckAdBlock !== 'undefined' || typeof FuckAdBlock !== 'undefined') {
 	importFAB.src = 'https://cdnjs.cloudflare.com/ajax/libs/fuckadblock/3.2.1/fuckadblock.min.js';
 	document.head.appendChild(importFAB);
 }
+
+// AMD
+require(['FuckAdBlock'], function(FuckAdBlock) {
+	let fuckAdBlock = new FuckAdBlock({
+		checkOnLoad: true,
+		resetOnEnd: true
+	});
+})
+
+// CommonJS
+let FuckAdBlock = require('fuckadblock');
+let fuckAdBlock = new FuckAdBlock({
+	checkOnLoad: true,
+	resetOnEnd: true
+});
 ```
 
 Default options
